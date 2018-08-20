@@ -45,15 +45,19 @@ export default {
 
   methods: {
     changeBackground() {
-      let docEl = document.documentElement
-      let style = getComputedStyle(docEl)
-      let n = Math.floor(Math.random() * 20)
+      const docEl = document.documentElement
+      const style = getComputedStyle(docEl)
+      const n = Math.floor(Math.random() * 20)
 
-      let preload_bg = style.getPropertyValue(`--preload-bg`)
-      let bg = style.getPropertyValue(`--bg-${n}`)
+      const preload_bg = style.getPropertyValue(`--preload-bg`)
+      const preload_bgb = style.getPropertyValue(`--preload-bgb`)
+      const bg = style.getPropertyValue(`--bg-${n}`)
+      const bgb = style.getPropertyValue(`--bg-${n}b`)
 
       docEl.style.setProperty(`--bg`, preload_bg)
+      docEl.style.setProperty(`--bgb`, preload_bgb)
       docEl.style.setProperty(`--preload-bg`, bg)
+      docEl.style.setProperty(`--preload-bgb`, bgb)
     },
     transitionClass(type) {
       let direction = type.match(/[^-]+/)[0]
@@ -73,6 +77,26 @@ export default {
 
 <style lang="scss">
 @import './assets/main.scss';
+
+:root {
+  --bg: '';
+  --bgb: '';
+  --preload-bg: '';
+  --preload-bgb: '';
+  @for $i from 0 through 19 {
+    --bg-#{$i}: url('./assets/bg/bg-#{$i}.jpg');
+    --bg-#{$i}b: url('./assets/bg/bg-#{$i}b.jpg');
+  }
+}
+
+// preload next bg
+body:before {
+  content: '';
+  background: var(--preload-bg), var(--preload-bgb);
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
 
 #app {
   display: flex;
@@ -108,10 +132,8 @@ export default {
     bottom: 0;
     left: -1em;
 
-    background: var(--bg) center center fixed / cover no-repeat;
+    background: var(--bgb) center center fixed / cover no-repeat;
     transition: background 2s ease;
-
-    filter: blur(1em) brightness(0.5);
   }
 
   > div {
