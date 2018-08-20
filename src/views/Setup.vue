@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <h1>About</h1>
+  <div class="setip">
+    <h1>Setup</h1>
     <lorem add="10p" />
   </div>
 </template>

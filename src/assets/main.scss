@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400');
+@import './transitions.scss';
+
+* {
+  box-sizing: border-box;
+  // border-radius: 3px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background: #222;
+  color: #eee;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 1px solid inherit;
+  background: transparent;
+  padding: 0.25em 0.5em;
+  border-radius: 3px;
+
+  &:hover {
+    background: #ccc;
+  }
+  &:hover,
+  &:active {
+    color: #222;
+  }
+
+  &:active {
+    background: #eee;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

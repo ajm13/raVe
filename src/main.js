@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import LoremIpsum from 'vue-lorem-ipsum'
+
+Vue.component('lorem', LoremIpsum)
 
 Vue.config.productionTip = false
 

@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <h1>About</h1>
+  <div class="history">
+    <h1>History</h1>
     <lorem add="10p" />
   </div>
 </template>
