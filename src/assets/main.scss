@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400');
 @import './transitions.scss';
 
+$content-width: 1000px;
+
 :root {
   --bg: '';
   --preload-bg: '';
@@ -9,8 +11,7 @@
   }
 }
 
-$content-width: 1000px;
-
+// preload next bg
 body:before {
   content: '';
   background: var(--preload-bg);
@@ -21,7 +22,6 @@ body:before {
 
 * {
   box-sizing: border-box;
-  // border-radius: 3px;
 }
 
 body {
@@ -35,14 +35,16 @@ body {
 button {
   font: inherit;
   color: inherit;
-  border: 1px solid inherit;
   background: transparent;
+
   padding: 0.25em 0.5em;
+  border: 1px solid inherit;
   border-radius: 3px;
 
   &:hover {
     background: #ccc;
   }
+
   &:hover,
   &:active {
     color: #222;
