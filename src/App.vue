@@ -38,6 +38,9 @@ export default {
   created() {
     this.$router.beforeEach(this.updateTransition)
     this.updateTransition(this.$route, this.$route)
+    this.changeBackground()
+    this.changeBackground()
+    setInterval(this.changeBackground, 20000)
   },
 
   methods: {
@@ -51,6 +54,17 @@ export default {
       let direction = type.match(/[^-]+/)[0]
       let transition = direction === 'enter' ? this.toTransition : this.fromTransition
       return `${transition}-${type}`
+    },
+    changeBackground() {
+      let docEl = document.documentElement
+      let style = getComputedStyle(docEl)
+      let n = Math.floor(Math.random() * 20)
+
+      let preload_bg = style.getPropertyValue(`--preload-bg`)
+      let bg = style.getPropertyValue(`--bg-${n}`)
+
+      docEl.style.setProperty(`--bg`, preload_bg)
+      docEl.style.setProperty(`--preload-bg`, bg)
     }
   }
 }
@@ -67,18 +81,41 @@ export default {
   width: 100vw;
   min-height: 100vh;
 
+  background: var(--bg) center center fixed / cover no-repeat;
+  transition: background 2s ease;
+
   font-family: 'Comfortaa', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
+  position: relative;
+
   width: 100%;
-  max-width: 800px;
+  max-width: $content-width;
 
   padding: 1em 2em;
   padding-top: 5em;
   background: rgba(#000, 0.8);
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -1em;
+    bottom: 0;
+    left: -1em;
+
+    background: var(--bg) center center fixed / cover no-repeat;
+    transition: background 2s ease;
+
+    filter: blur(1em) brightness(0.5);
+  }
+
+  > div {
+    position: relative;
+  }
 }
 
 .nav {
@@ -91,7 +128,7 @@ export default {
 
   &-links {
     width: 100%;
-    max-width: 800px;
+    max-width: $content-width;
 
     z-index: 1000;
     display: flex;
@@ -100,38 +137,38 @@ export default {
     padding: 1em;
 
     background: #111;
+  }
 
-    a {
-      position: relative;
+  a {
+    position: relative;
 
-      padding: 0.5em;
-      margin: 0 1em;
+    padding: 0.5em;
+    margin: 0 1em;
 
-      color: inherit;
-      text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 
-      &:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
 
-        width: 0%;
-        height: 2px;
+      width: 0%;
+      height: 2px;
 
-        background: #888;
-        transition: all 0.3s ease;
-      }
+      background: #888;
+      transition: all 0.3s ease;
+    }
 
-      &:hover:after,
-      &.router-link-exact-active:after {
-        width: 100%;
-      }
+    &:hover:after,
+    &.router-link-exact-active:after {
+      width: 100%;
+    }
 
-      &.router-link-exact-active:after {
-        background: #ddd;
-      }
+    &.router-link-exact-active:after {
+      background: #ddd;
     }
   }
 }

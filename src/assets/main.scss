@@ -1,6 +1,24 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400');
 @import './transitions.scss';
 
+:root {
+  --bg: '';
+  --preload-bg: '';
+  @for $i from 0 through 19 {
+    --bg-#{$i}: url('./assets/bg/bg-#{$i}.jpg');
+  }
+}
+
+$content-width: 1000px;
+
+body:before {
+  content: '';
+  background: var(--preload-bg);
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
 * {
   box-sizing: border-box;
   // border-radius: 3px;
