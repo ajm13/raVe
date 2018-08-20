@@ -94,6 +94,7 @@ export default {
 
   width: 100%;
   max-width: $content-width;
+  overflow: hidden;
 
   padding: 1em 2em;
   padding-top: 5em;
