@@ -44,17 +44,6 @@ export default {
   },
 
   methods: {
-    updateTransition(to, from, next) {
-      window.scrollTo(0, 0)
-      this.fromTransition = from.meta.transition || DEFAULT_TRANSITION
-      this.toTransition = to.meta.transition || DEFAULT_TRANSITION
-      if (next) next()
-    },
-    transitionClass(type) {
-      let direction = type.match(/[^-]+/)[0]
-      let transition = direction === 'enter' ? this.toTransition : this.fromTransition
-      return `${transition}-${type}`
-    },
     changeBackground() {
       let docEl = document.documentElement
       let style = getComputedStyle(docEl)
@@ -65,6 +54,17 @@ export default {
 
       docEl.style.setProperty(`--bg`, preload_bg)
       docEl.style.setProperty(`--preload-bg`, bg)
+    },
+    transitionClass(type) {
+      let direction = type.match(/[^-]+/)[0]
+      let transition = direction === 'enter' ? this.toTransition : this.fromTransition
+      return `${transition}-${type}`
+    },
+    updateTransition(to, from, next) {
+      window.scrollTo(0, 0)
+      this.fromTransition = from.meta.transition || DEFAULT_TRANSITION
+      this.toTransition = to.meta.transition || DEFAULT_TRANSITION
+      if (next) next()
     }
   }
 }
