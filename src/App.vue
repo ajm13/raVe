@@ -2,7 +2,7 @@
   <div id="app">
     <div class="container">
       <div class="nav">
-        <router-link to="/">raVe</router-link>
+        <router-link to="/">ra<span>V</span>e</router-link>
         <router-link to="setup">setup</router-link>
         <router-link to="about">about</router-link>
         <router-link to="history">history</router-link>
