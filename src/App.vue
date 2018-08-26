@@ -1,6 +1,12 @@
 <template>
   <div id="app">
+    <div class="bg-preload">
+      <div class="bg" :class="bgPreload"></div>
+      <div class="bg" :class="bgBlurPreload"></div>
+    </div>
+    <div class="bg" :class="bg"></div>
     <div class="container">
+      <div class="bg" :class="bgBlur"></div>
       <transition
         appear
         mode="out-in"
@@ -11,8 +17,8 @@
         :enter-active-class="transitionClass('enter-active')"
         :enter-to-class="transitionClass('enter-to')"
       >
-        <router-view />
-        </transition>
+        <router-view class="content" />
+      </transition>
     </div>
     <div class="nav">
       <div class="nav-links">
@@ -32,7 +38,12 @@ const DEFAULT_TRANSITION = 'fade'
 export default {
   data: () => ({
     fromTransition: DEFAULT_TRANSITION,
-    toTransition: DEFAULT_TRANSITION
+    toTransition: DEFAULT_TRANSITION,
+    bgInterval: null,
+    bg: null,
+    bgBlur: null,
+    bgPreload: null,
+    bgBlurPreload: null
   }),
 
   created() {
@@ -40,24 +51,21 @@ export default {
     this.updateTransition(this.$route, this.$route)
     this.changeBackground()
     this.changeBackground()
-    setInterval(this.changeBackground, 20000)
+    this.bgInterval = setInterval(this.changeBackground, 20000)
+  },
+
+  destroyed() {
+    clearInterval(this.bgInterval)
   },
 
   methods: {
     changeBackground() {
-      const docEl = document.documentElement
-      const style = getComputedStyle(docEl)
       const n = Math.floor(Math.random() * 20)
 
-      const preload_bg = style.getPropertyValue(`--preload-bg`)
-      const preload_bgb = style.getPropertyValue(`--preload-bgb`)
-      const bg = style.getPropertyValue(`--bg-${n}`)
-      const bgb = style.getPropertyValue(`--bg-${n}b`)
-
-      docEl.style.setProperty(`--bg`, preload_bg)
-      docEl.style.setProperty(`--bgb`, preload_bgb)
-      docEl.style.setProperty(`--preload-bg`, bg)
-      docEl.style.setProperty(`--preload-bgb`, bgb)
+      this.bg = this.bgPreload
+      this.bgBlur = this.bgBlurPreload
+      this.bgPreload = `bg-${n}`
+      this.bgBlurPreload = `bg-${n}b`
     },
     transitionClass(type) {
       let direction = type.match(/[^-]+/)[0]
@@ -78,21 +86,27 @@ export default {
 <style lang="scss">
 @import './assets/main.scss';
 
-:root {
-  --bg: '';
-  --bgb: '';
-  --preload-bg: '';
-  --preload-bgb: '';
-  @for $i from 0 through 19 {
-    --bg-#{$i}: url('./assets/bg/bg-#{$i}.jpg');
-    --bg-#{$i}b: url('./assets/bg/bg-#{$i}b.jpg');
+@for $i from 0 through 19 {
+  .bg-#{$i} {
+    background: url('./assets/bg/bg-#{$i}.jpg') center center fixed / cover no-repeat;
+  }
+  .bg-#{$i}b {
+    background: url('./assets/bg/bg-#{$i}b.jpg') center center fixed / cover no-repeat;
   }
 }
 
-// preload next bg
-body:before {
-  content: '';
-  background: var(--preload-bg), var(--preload-bgb);
+.bg {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  transition: background 2s ease;
+}
+
+.bg-preload {
   width: 0;
   height: 0;
   visibility: hidden;
@@ -105,12 +119,13 @@ body:before {
   width: 100%;
   min-height: 100vh;
 
-  background: var(--bg) center center fixed / cover no-repeat;
-  transition: background 2s ease;
-
   font-family: 'Comfortaa', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  > .bg {
+    position: fixed;
+  }
 }
 
 .container {
@@ -122,21 +137,8 @@ body:before {
 
   padding: 1em 2em;
   padding-top: 5em;
-  background: rgba(#000, 0.8);
 
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -1em;
-    bottom: 0;
-    left: -1em;
-
-    background: var(--bgb) center center fixed / cover no-repeat;
-    transition: background 2s ease;
-  }
-
-  > div {
+  > .content {
     position: relative;
   }
 }

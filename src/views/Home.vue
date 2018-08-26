@@ -5,13 +5,9 @@
       <div class="title">ra<span>V</span>e</div>
       <div class="subtitle">realtime audio visualizer experience</div>
 
-      <router-link
-        tag="button"
-        to="/setup"
-        class="enter-btn"
-      >
+      <router-link tag="button" to="/setup" class="enter-btn">
         <span class="darken">enter</span> ra<span>V</span>e
-        </router-link>
+      </router-link>
     </div>
   </div>
 </template>
