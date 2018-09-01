@@ -1,12 +1,15 @@
 <template>
-  <div class="welcome">
+  <div class="welcome center">
     <div class="dialog">
       <div class="heading">welcome to</div>
-      <div class="title">ra<span>V</span>e</div>
+      <div class="title">
+        <rave/>
+      </div>
       <div class="subtitle">realtime audio visualizer experience</div>
 
       <router-link tag="button" to="/setup" class="enter-btn">
-        <span class="darken">enter</span> ra<span>V</span>e
+        <span class="darken">enter </span>
+        <rave/>
       </router-link>
     </div>
   </div>
@@ -18,16 +21,7 @@ export default {}
 
 <style lang="scss" scoped>
 .welcome {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  width: 100%;
-  height: 100%;
-
   .dialog {
-    padding: 4rem;
     font-size: 2rem;
     font-weight: 300;
     min-width: 500px;
@@ -51,7 +45,7 @@ export default {}
   }
 
   .enter-btn {
-    margin-top: 2em;
+    margin-top: 1em;
     border-color: rgba(#fff, 0.2);
   }
 }

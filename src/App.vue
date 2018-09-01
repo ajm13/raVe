@@ -22,10 +22,10 @@
     </div>
     <div class="nav">
       <div class="nav-links">
-        <router-link to="/">ra<span>V</span>e</router-link>
+        <router-link to="/"><rave/></router-link>
         <router-link to="setup">setup</router-link>
         <router-link to="about">about</router-link>
-        <router-link to="history">history</router-link>
+        <!-- <router-link to="history">history</router-link> -->
         <router-link to="donate">donate</router-link>
       </div>
     </div>
@@ -135,12 +135,25 @@ export default {
   max-width: $content-width;
   overflow: hidden;
 
-  padding: 1em 2em;
-  padding-top: 5em;
+  padding: 4rem;
 
   > .content {
     position: relative;
   }
+}
+
+.page {
+  padding-top: 4rem;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  width: 100%;
+  height: 100%;
 }
 
 .nav {

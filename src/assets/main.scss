@@ -15,14 +15,57 @@ body {
   color: #eee;
 }
 
-button {
+a {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.6;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  // &:hover:after {
+  //   content: attr(href);
+
+  //   position: absolute;
+  //   top: 0;
+  //   left: 50%;
+  //   transform: translate(-50%, -100%);
+
+  //   font-size: 0.8em;
+  //   background: #222;
+  //   padding: 0.5em;
+  //   line-height: 1;
+  // }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 1rem;
+}
+
+p {
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+button,
+.btn {
   font: inherit;
   color: inherit;
   background: transparent;
 
   padding: 0.25em 0.5em;
-  border: 1px solid inherit;
+  border: 1px solid rgba(#fff, 0.2);
   border-radius: 3px;
+
+  appearance: none;
 
   &:hover {
     background: #ccc;
