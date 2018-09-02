@@ -59,7 +59,7 @@
       <h2>Anatomy of
         <rave/>
       </h2>
-      <p>
+      <p class="img">
         <img src="@/assets/anatomy.jpg" alt="anatomy of raVe">
       </p>
       <p>
@@ -77,8 +77,12 @@
 
 <style lang="scss">
 .about {
-  img {
-    width: 100%;
+  .img {
+    padding: 0 5em;
+
+    img {
+      width: 100%;
+    }
   }
 }
 </style>
