@@ -1,38 +1,34 @@
 <template>
   <div id="app">
-    <div class="bg-preload">
-      <div class="bg" :class="bgPreload"></div>
-      <div class="bg" :class="bgBlurPreload"></div>
-    </div>
-    <div class="bg" :class="bg"></div>
-    <div class="container">
-      <div class="bg" :class="bgBlur"></div>
-      <transition
-        appear
-        mode="out-in"
-        :leave-class="transitionClass('leave')"
-        :leave-active-class="transitionClass('leave-active')"
-        :leave-to-class="transitionClass('leave-to')"
-        :enter-class="transitionClass('enter')"
-        :enter-active-class="transitionClass('enter-active')"
-        :enter-to-class="transitionClass('enter-to')"
-      >
-        <router-view class="content" />
-      </transition>
-    </div>
-    <div class="nav">
-      <div class="nav-links">
-        <router-link to="/"><rave/></router-link>
-        <router-link to="setup">setup</router-link>
-        <router-link to="about">about</router-link>
-        <!-- <router-link to="history">history</router-link> -->
-        <router-link to="donate">donate</router-link>
+    <template v-if="$route.name !== 'visualizer'">
+      <div class="bg-preload">
+        <div class="bg" :class="bgPreload"></div>
+        <div class="bg" :class="bgBlurPreload"></div>
       </div>
-    </div>
+      <div class="bg" :class="bg"></div>
+      <div class="container">
+        <div class="bg" :class="bgBlur"></div>
+        <transition
+          appear
+          mode="out-in"
+          :leave-class="transitionClass('leave')"
+          :leave-active-class="transitionClass('leave-active')"
+          :leave-to-class="transitionClass('leave-to')"
+          :enter-class="transitionClass('enter')"
+          :enter-active-class="transitionClass('enter-active')"
+          :enter-to-class="transitionClass('enter-to')"
+        >
+          <router-view class="content" />
+        </transition>
+      </div>
+      <nav-bar/>
+    </template>
+    <router-view v-else />
   </div>
 </template>
 
 <script>
+import NavBar from '@/components/NavBar'
 const DEFAULT_TRANSITION = 'fade'
 
 export default {
@@ -78,10 +74,11 @@ export default {
       this.toTransition = to.meta.transition || DEFAULT_TRANSITION
       if (next) next()
     }
-  }
+  },
+
+  components: { NavBar }
 }
 </script>
-
 
 <style lang="scss">
 @import './assets/main.scss';
@@ -132,82 +129,13 @@ export default {
   position: relative;
 
   width: 100%;
-  max-width: $content-width;
+  max-width: var(--content-width);
   overflow: hidden;
 
   padding: 4rem;
 
   > .content {
     position: relative;
-  }
-}
-
-.page {
-  padding-top: 4rem;
-}
-
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  width: 100%;
-  height: 100%;
-}
-
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  transform: translate3d(0, 0, 0);
-
-  &-links {
-    width: 100%;
-    max-width: $content-width;
-
-    z-index: 1000;
-    display: flex;
-
-    margin: 0 auto;
-    padding: 1em;
-
-    background: #111;
-  }
-
-  a {
-    position: relative;
-
-    padding: 0.5em;
-    margin: 0 1em;
-
-    color: inherit;
-    text-decoration: none;
-
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-
-      width: 0%;
-      height: 2px;
-
-      background: #888;
-      transition: all 0.3s ease;
-    }
-
-    &:hover:after,
-    &.router-link-exact-active:after {
-      width: 100%;
-    }
-
-    &.router-link-exact-active:after {
-      background: #ddd;
-    }
   }
 }
 </style>

@@ -14,6 +14,11 @@ export default new Router({
       meta: { transition: 'zoom' }
     },
     {
+      path: '/visualizer',
+      name: 'visualizer',
+      component: () => import(/* webpackChunkName: "visualizer" */ './views/Visualizer.vue')
+    },
+    {
       path: '/setup',
       name: 'setup',
       component: () => import(/* webpackChunkName: "setup" */ './views/Setup.vue')

@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400');
 @import './transitions.scss';
 
-$content-width: 1000px;
+:root {
+  --content-width: 1000px;
+}
 
 * {
   box-sizing: border-box;
@@ -53,6 +55,10 @@ h6 {
 p {
   line-height: 1.5;
   margin: 0 0 1rem 0;
+
+  .logo {
+    font-weight: bold;
+  }
 }
 
 button,
@@ -83,4 +89,31 @@ button,
   &:focus {
     outline: none;
   }
+}
+
+.page {
+  padding-top: 4rem;
+
+  h1 {
+    text-align: center;
+  }
+
+  section p,
+  section section {
+    padding: 0 1rem;
+  }
+
+  section {
+    margin-bottom: 2em;
+  }
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  width: 100%;
+  height: 100%;
 }
