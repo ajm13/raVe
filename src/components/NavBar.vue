@@ -65,4 +65,10 @@
     }
   }
 }
+
+@media all and (max-width: 480px) {
+  .nav a {
+    margin: 0 0.5rem;
+  }
+}
 </style>

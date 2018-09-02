@@ -78,7 +78,9 @@
 <style lang="scss">
 .about {
   .img {
-    padding: 0 5em;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
 
     img {
       width: 100%;

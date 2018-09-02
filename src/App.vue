@@ -138,4 +138,10 @@ export default {
     position: relative;
   }
 }
+
+@media all and (max-width: 768px) {
+  .container {
+    padding: 4rem 1rem;
+  }
+}
 </style>
