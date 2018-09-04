@@ -20,11 +20,18 @@
           see
           <router-link to="setup">setup</router-link>
         </p>
+        <p>
+          <strong>Tip:</strong> If <rave/> is slow or choppy,
+          <template v-if="!chromeOrFirefox">try
+            <a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a>
+            or
+            <a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Mozilla Firefox</a>, or
+          </template>try turning down render scale in the settings panel</p>
         <div class="flex">
           <label class="btn block">
             <input v-model="noMoreWelcome" type="checkbox"> don't show again
           </label>
-          <button @click="hideWelcome">okay</button>
+          <button @click="hideWelcome">dismiss</button>
         </div>
       </div>
     </modal>
@@ -73,7 +80,8 @@ export default {
     hideControlsTimeout: 0,
     donateNumShow: 0,
     noMoreDonate: false,
-    noMoreWelcome: false
+    noMoreWelcome: false,
+    chromeOrFirefox: false
   }),
 
   computed: mapState(['settings']),
@@ -105,10 +113,14 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.showWelcome = this.settings.showWelcome
     setTimeout(this.displayDonate, 6e4 * 20) // first at 20 min
     setInterval(this.displayDonate, 6e4 * 60) // then every 60 min
+
+    const chrome = window.chrome !== undefined
+    const firefox = navigator.userAgent.indexOf('Firefox') !== -1
+    this.chromeOrFirefox = chrome || firefox
 
     this.audio = new Audio()
     this.audio.volume = 0.5
@@ -131,7 +143,9 @@ export default {
         return audio.paused && !microphone.enabled
       }
     }
+  },
 
+  mounted() {
     this.gpu_hack = document.createElement('canvas').getContext('webgl')
 
     this.visualizer = new raVe({

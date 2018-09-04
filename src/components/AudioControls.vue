@@ -165,7 +165,6 @@ export default {
 
   border-radius: var(--border-radius);
   background-color: #111;
-  // z-index: 100;
 
   transform: translateX(-50%);
   user-select: none;
@@ -218,7 +217,6 @@ export default {
       bottom: 0;
       left: 0;
       right: 0;
-      // z-index: 100;
     }
 
     .list ul {
@@ -228,7 +226,6 @@ export default {
       max-height: 400px;
       width: 100%;
       overflow: auto;
-      // z-index: 201;
     }
 
     .list ul:empty:before {
@@ -249,7 +246,6 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%;
-      // z-index: 10;
     }
 
     li:before {
@@ -262,7 +258,6 @@ export default {
 
       background-color: #222;
       transition: all 200ms ease-out;
-      // z-index: 8;
     }
 
     li:hover:before {

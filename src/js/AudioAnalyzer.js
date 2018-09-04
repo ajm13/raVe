@@ -1,3 +1,19 @@
+if (!AnalyserNode.prototype.getFloatTimeDomainData) {
+  let u8data = []
+  const d127 = 1 / 127.5
+
+  AnalyserNode.prototype.getFloatTimeDomainData = function (data) {
+    if (u8data.length !== data.length) {
+      u8data = new Uint8Array(data.length)
+    }
+
+    this.getByteTimeDomainData(u8data)
+    for (let i = 0; i < data.length; i++) {
+      data[i] = (u8data[i] - 127.5) * d127
+    }
+  }
+}
+
 export default class AudioAnalyzer {
   constructor(audioContext, audioSource) {
     this.audioContext = audioContext

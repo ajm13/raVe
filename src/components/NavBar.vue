@@ -38,6 +38,7 @@
 
     padding: 0.5em;
     margin: 0 1em;
+    border: 0;
 
     color: inherit;
     text-decoration: none !important;
