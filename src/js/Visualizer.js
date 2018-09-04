@@ -71,6 +71,6 @@ export default class Visualizer {
     delete this.canvas
     this.audio.visID = 0
 
-    removeAllEventListeners('visualizer')
+    window.removeAllEventListeners('visualizer')
   }
 }

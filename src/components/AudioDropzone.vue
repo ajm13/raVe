@@ -61,7 +61,7 @@ export default {
   },
 
   beforeDestroy() {
-    removeAllEventListeners('audio-dropzone')
+    window.removeAllEventListeners('audio-dropzone')
   }
 }
 </script>

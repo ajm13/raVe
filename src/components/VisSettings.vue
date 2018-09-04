@@ -53,7 +53,7 @@ export default {
   },
 
   beforeDestroy() {
-    removeAllEventListeners('vis-settings')
+    window.removeAllEventListeners('vis-settings')
   }
 }
 </script>

@@ -145,7 +145,7 @@ export default {
   },
 
   beforeDestroy() {
-    removeAllEventListeners('audio-controls')
+    window.removeAllEventListeners('audio-controls')
   }
 }
 </script>
