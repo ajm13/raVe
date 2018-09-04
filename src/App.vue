@@ -43,7 +43,9 @@ export default {
 
   computed: {
     visActive() {
-      return this.$route.name === 'visualizer'
+      const visActive = this.$route.name === 'visualizer'
+      document.body.classList.toggle('scrollbar', !visActive)
+      return visActive
     }
   },
 

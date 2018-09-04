@@ -7,6 +7,23 @@
   --border-radius: 2px;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -17,6 +34,10 @@ body {
 
   background: #111;
   color: #eee;
+
+  &.scrollbar {
+    overflow-y: scroll;
+  }
 }
 
 a {
