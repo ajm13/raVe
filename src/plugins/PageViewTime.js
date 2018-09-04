@@ -10,8 +10,8 @@ export default {
     const logTime = useBeacon => {
       const options = useBeacon ? { transport: 'beacon' } : {}
 
-      const diff = Date.now() - tracking[currentPage].show
-      const time = Math.floor((diff + tracking[currentPage].total) / 1000)
+      const { show, total } = tracking[currentPage]
+      const time = total + Date.now() - show
 
       Vue.$ga.time('Page View Time', 'total', time, currentPage, options)
     }
