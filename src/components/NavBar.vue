@@ -29,6 +29,7 @@
     margin: 0 auto;
     padding: 1em;
 
+    border-radius: var(--border-radius);
     background: #111;
   }
 

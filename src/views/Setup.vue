@@ -22,11 +22,17 @@
       </p>
       <section>
         <h3>macOS</h3>
+        <p class="img">
+          <img src="@/assets/loopback.jpg" alt="loopback">
+        </p>
         <p>To enable music streaming to
           <rave/> on macOS, you must first download and install
           <a href="https://rogueamoeba.com/loopback/" target="_blank">Loopback</a>.
           <strong>Loopback</strong> is an application that allows you to route audio between
           applications in macOS.
+        </p>
+        <p class="img">
+          <img src="@/assets/loopback-settings.jpg" alt="loopback-settings">
         </p>
         <p>Once
           <strong>Loopback</strong> is installed, create a "New Virtual Device" and add the

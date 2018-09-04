@@ -1,29 +1,28 @@
 <template>
   <div id="app">
-    <template v-if="$route.name !== 'visualizer'">
+    <template v-if="!visActive">
       <div class="bg-preload">
         <div class="bg" :class="bgPreload"></div>
         <div class="bg" :class="bgBlurPreload"></div>
       </div>
       <div class="bg" :class="bg"></div>
-      <div class="container">
-        <div class="bg" :class="bgBlur"></div>
-        <transition
-          appear
-          mode="out-in"
-          :leave-class="transitionClass('leave')"
-          :leave-active-class="transitionClass('leave-active')"
-          :leave-to-class="transitionClass('leave-to')"
-          :enter-class="transitionClass('enter')"
-          :enter-active-class="transitionClass('enter-active')"
-          :enter-to-class="transitionClass('enter-to')"
-        >
-          <router-view class="content" />
-        </transition>
-      </div>
-      <nav-bar/>
     </template>
-    <router-view v-else />
+    <div class="container" :class="{ visualizer: visActive }">
+      <div v-if="!visActive" class="bg" :class="bgBlur"></div>
+      <transition
+        appear
+        mode="out-in"
+        :leave-class="transitionClass('leave')"
+        :leave-active-class="transitionClass('leave-active')"
+        :leave-to-class="transitionClass('leave-to')"
+        :enter-class="transitionClass('enter')"
+        :enter-active-class="transitionClass('enter-active')"
+        :enter-to-class="transitionClass('enter-to')"
+      >
+        <router-view :class="{ content: !visActive }" />
+      </transition>
+    </div>
+    <nav-bar v-if="!visActive" />
   </div>
 </template>
 
@@ -42,12 +41,18 @@ export default {
     bgBlurPreload: null
   }),
 
+  computed: {
+    visActive() {
+      return this.$route.name === 'visualizer'
+    }
+  },
+
   created() {
     this.$router.beforeEach(this.updateTransition)
     this.updateTransition(this.$route, this.$route)
     this.changeBackground()
     this.changeBackground()
-    this.bgInterval = setInterval(this.changeBackground, 20000)
+    this.bgInterval = setInterval(this.changeBackground, 30000)
   },
 
   destroyed() {
@@ -110,6 +115,7 @@ export default {
 }
 
 #app {
+  position: relative;
   display: flex;
   justify-content: center;
 
@@ -127,20 +133,20 @@ export default {
 
 .container {
   position: relative;
-
   width: 100%;
-  max-width: var(--content-width);
-  overflow: hidden;
-
-  padding: 4rem;
 
   > .content {
     position: relative;
   }
 }
 
-@media all and (max-width: 768px) {
-  .container {
+.container:not(.visualizer) {
+  max-width: var(--content-width);
+  overflow: hidden;
+
+  padding: 4rem;
+
+  @media all and (max-width: 768px) {
     padding: 4rem 1rem;
   }
 }

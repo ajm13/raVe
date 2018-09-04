@@ -74,17 +74,3 @@
     </section>
   </div>
 </template>
-
-<style lang="scss">
-.about {
-  .img {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 600px;
-
-    img {
-      width: 100%;
-    }
-  }
-}
-</style>

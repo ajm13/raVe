@@ -2,6 +2,7 @@
 .zoom {
   &-enter-active,
   &-leave-active {
+    pointer-events: none;
     transition: all 0.3s ease;
   }
 }

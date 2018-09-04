@@ -7,7 +7,7 @@
       </div>
       <div class="subtitle">realtime audio visualizer experience</div>
 
-      <router-link tag="button" to="/setup" class="enter-btn">
+      <router-link tag="button" to="/visualizer" class="enter-btn">
         <span class="darken">enter </span>
         <rave/>
       </router-link>

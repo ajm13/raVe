@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import './transitions.scss';
 
 :root {
   --content-width: 1000px;
+  --border-radius: 2px;
 }
 
 * {
@@ -24,23 +26,23 @@ a {
   opacity: 0.6;
   font-weight: bold;
 
-  &:hover {
-    text-decoration: underline;
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 1px;
+    background: #eee;
   }
 
-  // &:hover:after {
-  //   content: attr(href);
+  &:hover {
+    opacity: 0.8;
+  }
 
-  //   position: absolute;
-  //   top: 0;
-  //   left: 50%;
-  //   transform: translate(-50%, -100%);
-
-  //   font-size: 0.8em;
-  //   background: #222;
-  //   padding: 0.5em;
-  //   line-height: 1;
-  // }
+  &:active {
+    opacity: 1;
+  }
 }
 
 h1,
@@ -91,6 +93,16 @@ button,
   }
 }
 
+.flex {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.block {
+  display: block;
+}
+
 .page {
   padding-top: 4rem;
 
@@ -105,6 +117,17 @@ button,
 
   section {
     margin-bottom: 2em;
+  }
+
+  .img {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+    text-align: center;
+
+    img {
+      max-width: 100%;
+    }
   }
 }
 

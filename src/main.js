@@ -14,7 +14,7 @@ Vue.component('rave', rave)
 Vue.config.productionTip = false
 
 const prod = process.env.NODE_ENV === 'production'
-const debug = !prod && true
+const debug = !prod && false
 
 Vue.use(VueAnalytics, {
   id: 'UA-125037714-1',
