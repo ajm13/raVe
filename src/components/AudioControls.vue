@@ -131,23 +131,21 @@ export default {
   mounted() {
     let { progress } = this.$refs
 
-    this.audio.addEventListener('loadedmetadata', this.timeUpdate)
-    this.audio.addEventListener('timeupdate', this.timeUpdate)
-    this.audio.addEventListener('pause', this.updatePaused)
-    this.audio.addEventListener('play', this.updatePaused)
-    this.audio.addEventListener('ended', this.playlist)
-    this.audio.addEventListener('play', this.stopMicOnPlay)
+    this.audio.addEventListener('loadedmetadata', this.timeUpdate, 'audio-controls')
+    this.audio.addEventListener('timeupdate', this.timeUpdate, 'audio-controls')
+    this.audio.addEventListener('pause', this.updatePaused, 'audio-controls')
+    this.audio.addEventListener('play', this.updatePaused, 'audio-controls')
+    this.audio.addEventListener('ended', this.playlist, 'audio-controls')
+    this.audio.addEventListener('play', this.stopMicOnPlay, 'audio-controls')
 
-    progress.addEventListener('mousedown', this.mousedown)
-    document.addEventListener('mousemove', this.mousemove)
-    document.addEventListener('mouseup', this.mouseup)
-    document.addEventListener('keyup', this.keyup)
+    progress.addEventListener('mousedown', this.mousedown, 'audio-controls')
+    document.addEventListener('mousemove', this.mousemove, 'audio-controls')
+    document.addEventListener('mouseup', this.mouseup, 'audio-controls')
+    document.addEventListener('keyup', this.keyup, 'audio-controls')
   },
 
   beforeDestroy() {
-    document.removeEventListener('mousemove', this.mousemove)
-    document.removeEventListener('mouseup', this.mouseup)
-    document.removeEventListener('keyup', this.keyup)
+    removeAllEventListeners('audio-controls')
   }
 }
 </script>

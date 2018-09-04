@@ -191,4 +191,12 @@ export default class extends Visualizer {
     this.drawInner(ctx, data, bass, bassSpike, r1, true)
     this.drawOuter(ctx, data, bass, r2, true)
   }
+
+  destroy() {
+    super.destroy()
+    delete this.ctx
+    delete this.buf
+    delete this.buffer
+    delete this.bassbuf
+  }
 }

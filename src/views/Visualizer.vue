@@ -74,10 +74,15 @@ export default {
     playlist: null,
     source: null,
     visualizer: null,
+
     showControls: false,
     showDonate: false,
     showWelcome: true,
-    hideControlsTimeout: 0,
+
+    hideControlsTO: 0,
+    showDonateTO: 0,
+    showDonateIV: 0,
+
     donateNumShow: 0,
     noMoreDonate: false,
     noMoreWelcome: false,
@@ -106,8 +111,8 @@ export default {
 
     displayControls() {
       this.showControls = true
-      clearTimeout(this.hideControlsTimeout)
-      this.hideControlsTimeout = setTimeout(() => {
+      clearTimeout(this.hideControlsTO)
+      this.hideControlsTO = setTimeout(() => {
         this.showControls = false
       }, 2000)
     }
@@ -115,8 +120,8 @@ export default {
 
   created() {
     this.showWelcome = this.settings.showWelcome
-    setTimeout(this.displayDonate, 6e4 * 20) // first at 20 min
-    setInterval(this.displayDonate, 6e4 * 60) // then every 60 min
+    this.showDonateTO = setTimeout(this.displayDonate, 6e4 * 20) // first at 20 min
+    this.showDonateIV = setInterval(this.displayDonate, 6e4 * 60) // then every 60 min
 
     const chrome = window.chrome !== undefined
     const firefox = navigator.userAgent.indexOf('Firefox') !== -1
@@ -146,7 +151,8 @@ export default {
   },
 
   mounted() {
-    this.gpu_hack = document.createElement('canvas').getContext('webgl')
+    this.gpuHack = document.createElement('canvas')
+    this.gpuHackCtx = this.gpuHack.getContext('webgl')
 
     this.visualizer = new raVe({
       audio: this.source,
@@ -157,10 +163,19 @@ export default {
   },
 
   beforeDestroy() {
+    window.clearTimeout(this.showDonateTO)
+    window.clearInterval(this.showDonateIV)
+
     this.visualizer.destroy()
     delete this.visualizer
+
     this.audio.pause()
+    this.audio.src = ''
+    this.audio.load()
     delete this.audio
+
+    delete this.gpuHack
+    delete this.gpuHackCtx
   },
 
   components: {

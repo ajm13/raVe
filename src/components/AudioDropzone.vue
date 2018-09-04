@@ -57,11 +57,11 @@ export default {
       this.visible = true
     }
 
-    document.body.addEventListener('dragenter', this.dragEnterHandler)
+    document.body.addEventListener('dragenter', this.dragEnterHandler, 'audio-dropzone')
   },
 
   beforeDestroy() {
-    document.body.removeEventListener('dragenter', this.dragEnterHandler)
+    removeAllEventListeners('audio-dropzone')
   }
 }
 </script>

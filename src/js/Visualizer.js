@@ -24,9 +24,9 @@ export default class Visualizer {
       .substr(2)
     this.audio.visID = this.id
 
-    this.fpsID = setInterval(this.calculateFPS.bind(this), 1000)
+    this.fpsID = window.setInterval(this.calculateFPS.bind(this), 1000)
     this.resizeHandler = this.resize.bind(this)
-    addEventListener('resize', this.resizeHandler)
+    window.addEventListener('resize', this.resizeHandler, 'visualizer')
   }
 
   createBuffer(width = 100, height = 100) {
@@ -54,8 +54,8 @@ export default class Visualizer {
     let firstRender = this.tick == 0
     if (firstRender) this.resize()
 
-    cancelAnimationFrame(this.frameID)
-    this.frameID = requestAnimationFrame(this.render.bind(this))
+    window.cancelAnimationFrame(this.frameID)
+    this.frameID = window.requestAnimationFrame(this.render.bind(this))
 
     let shouldRender = !this.audio.paused || firstRender
     if (shouldRender) this.tick++
@@ -65,11 +65,12 @@ export default class Visualizer {
 
   destroy() {
     // for fps hot reload drop
-    cancelAnimationFrame(this.frameID)
-    clearInterval(this.fpsID)
+    window.cancelAnimationFrame(this.frameID)
+    window.clearInterval(this.fpsID)
     this.container.removeChild(this.canvas)
+    delete this.canvas
     this.audio.visID = 0
 
-    removeEventListener('resize', this.resizeHandler)
+    removeAllEventListeners('visualizer')
   }
 }

@@ -49,11 +49,11 @@ export default {
 
   created() {
     this.showFPS = this.settings.showFPS
-    window.addEventListener('resize', this.resizeHandler)
+    window.addEventListener('resize', this.resizeHandler, 'vis-settings')
   },
 
   beforeDestroy() {
-    window.removeEventListener('resize', this.resizeHandler)
+    removeAllEventListeners('vis-settings')
   }
 }
 </script>

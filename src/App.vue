@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import '@/js/EventListenerCleanup'
+
 import NavBar from '@/components/NavBar'
 const DEFAULT_TRANSITION = 'fade'
 
