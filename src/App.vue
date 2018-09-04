@@ -94,10 +94,12 @@ export default {
 
 @for $i from 0 through 19 {
   .bg-#{$i} {
-    background: url('./assets/bg/bg-#{$i}.jpg') center center fixed / cover no-repeat;
+    background: url('./assets/bg/bg-#{$i}.jpg') no-repeat center center fixed;
+    background-size: cover;
   }
   .bg-#{$i}b {
-    background: url('./assets/bg/bg-#{$i}b.jpg') center center fixed / cover no-repeat;
+    background: url('./assets/bg/bg-#{$i}b.jpg') no-repeat center center fixed;
+    background-size: cover;
   }
 }
 
