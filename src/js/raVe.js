@@ -53,7 +53,7 @@ export default class extends Visualizer {
     } else {
       let h = this.tick / 10 + 10 * sin(this.tick / 10)
       let l = 55 - 20 * bass
-      ctx.strokeStyle = `hsl(${h}, 100%, ${l}%)`
+      ctx.strokeStyle = `hsl(${h % 360}, 100%, ${l}%)`
       ctx.globalCompositeOperation = 'lighter'
     }
 
@@ -101,7 +101,7 @@ export default class extends Visualizer {
     } else {
       let h = this.tick / 10 + 10 + 10 * sin(this.tick / 10)
       let l = 52 + floor(bass * 5)
-      ctx.fillStyle = `hsl(${h}, 100%, ${l}%)`
+      ctx.fillStyle = `hsl(${h % 360}, 100%, ${l}%)`
       ctx.globalCompositeOperation = 'lighter'
     }
 
