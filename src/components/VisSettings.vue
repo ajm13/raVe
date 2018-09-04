@@ -60,6 +60,8 @@ export default {
 
 <style lang="scss">
 .vis-settings {
+  user-select: none;
+
   &__panel,
   &__open {
     position: absolute;
