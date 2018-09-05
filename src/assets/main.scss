@@ -88,21 +88,41 @@ button,
 
   appearance: none;
 
-  &:hover {
-    background: #ccc;
+  &:disabled {
+    opacity: 0.5;
   }
 
-  &:hover,
-  &:active {
-    color: #222;
+  &:not(:disabled) {
+    &:hover {
+      background: #ccc;
+    }
+
+    &:hover,
+    &:active {
+      color: #222;
+    }
+
+    &:active {
+      background: #eee;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  input {
+    flex: 0;
   }
 
-  &:active {
-    background: #eee;
-  }
-
-  &:focus {
-    outline: none;
+  div {
+    flex: 1;
   }
 }
 

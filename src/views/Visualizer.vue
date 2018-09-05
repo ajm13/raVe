@@ -2,10 +2,9 @@
   <div class="vis">
     <div class="vis__container" ref="container"></div>
     <template v-if="visualizer">
-      <div class="vis__controls" :class="{ hidden: !showControls && !source.paused }" @mousemove="displayControls"
-        @click="displayControls">
+      <div class="vis__controls" :class="{ hidden: !showControls }" @mousemove="detectedActive" @click="detectedActive">
         <nav-bar/>
-        <vis-settings :visualizer="visualizer" />
+        <vis-settings ref="visSettings" :visualizer="visualizer" />
         <audio-controls :audio="audio" :microphone="microphone" :playlist="playlist" />
       </div>
       <audio-dropzone :playlist="playlist" />
@@ -16,17 +15,18 @@
         <h2>Welcome to
           <rave/>
         </h2>
-        <p>To start, drag and drop audio files or toggle microphone. For detailed instructions
-          see
+        <p>Drag and drop audio files or toggle microphone to begin. To use with Spotify or YouTube, see
           <router-link to="setup">setup</router-link>
         </p>
         <p>
-          <strong>Tip:</strong> If <rave/> is slow or choppy,
+          <strong>Tip:</strong> If
+          <rave/> is slow or choppy,
           <template v-if="!chromeOrFirefox">try
             <a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a>
             or
             <a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Mozilla Firefox</a>, or
-          </template>try turning down render scale in the settings panel</p>
+          </template>try turning down quality in the settings panel</p>
+        <p>Best viewed in fullscreen</p>
         <div class="flex">
           <label class="btn block">
             <input v-model="noMoreWelcome" type="checkbox"> don't show again
@@ -75,24 +75,52 @@ export default {
     source: null,
     visualizer: null,
 
-    showControls: false,
-    showDonate: false,
-    showWelcome: true,
+    autoQSamples: [],
+    autoQLastTick: 0,
+    autoQIV: 0,
 
-    hideControlsTO: 0,
+    showDonate: false,
     showDonateTO: 0,
     showDonateIV: 0,
-
-    donateNumShow: 0,
     noMoreDonate: false,
+    donateNumShow: 0,
+
+    showWelcome: true,
     noMoreWelcome: false,
+
+    userActive: false,
+    userActiveTO: 0,
+
     chromeOrFirefox: false
   }),
 
-  computed: mapState(['settings']),
+  computed: {
+    ...mapState(['settings']),
+
+    showControls() {
+      if (!this.visualizer) return true
+      return this.userActive || this.source.paused
+    }
+  },
 
   methods: {
     ...mapMutations(['stopShowingDonate', 'stopShowingWelcome']),
+
+    autoQuality() {
+      const fps = this.visualizer.tick - this.autoQLastTick
+      this.autoQLastTick = this.visualizer.tick
+
+      this.autoQSamples.push(fps)
+      if (this.autoQSamples.length > 5) {
+        this.autoQSamples.shift()
+        const avg = this.autoQSamples.reduce((a, x) => a + x) / 5
+
+        if (avg < 55) {
+          this.$refs.visSettings.changeScale(-1)
+          this.autoQSamples = []
+        }
+      }
+    },
 
     hideDonate() {
       this.showDonate = false
@@ -109,12 +137,24 @@ export default {
       this.donateNumShow++
     },
 
-    displayControls() {
-      this.showControls = true
-      clearTimeout(this.hideControlsTO)
-      this.hideControlsTO = setTimeout(() => {
-        this.showControls = false
+    detectedActive() {
+      this.userActive = true
+      clearTimeout(this.userActiveTO)
+      this.userActiveTO = setTimeout(() => {
+        this.userActive = false
       }, 2000)
+    }
+  },
+
+  watch: {
+    showControls(value) {
+      if (this.settings.autoQ) {
+        if (value) clearInterval(this.autoQIV)
+        else {
+          this.autoQLastTick = this.visualizer.tick
+          this.autoQIV = setInterval(this.autoQuality, 1000)
+        }
+      }
     }
   },
 
@@ -163,8 +203,11 @@ export default {
   },
 
   beforeDestroy() {
-    window.clearTimeout(this.showDonateTO)
-    window.clearInterval(this.showDonateIV)
+    clearTimeout(this.showDonateTO)
+    clearTimeout(this.userActiveTO)
+
+    clearInterval(this.autoQIV)
+    clearInterval(this.showDonateIV)
 
     this.visualizer.destroy()
     delete this.visualizer

@@ -38,7 +38,12 @@
       "plugin:vue/essential",
       "@vue/prettier"
     ],
-    "rules": {},
+    "rules": {
+      "linebreak-style": [
+        "error",
+        "unix"
+      ]
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

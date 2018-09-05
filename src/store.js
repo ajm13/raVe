@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-const VERSION = "1.0"
+const VERSION = '1.1'
 const VERSION_KEY = 'raVe-v'
 const STORAGE_KEY = 'raVe'
 
@@ -19,6 +19,7 @@ if (version === VERSION && saved !== null) {
 
 const state = saved || {
   settings: {
+    autoQ: true,
     scale: null,
     showFPS: false,
     showDonate: true,
@@ -27,6 +28,10 @@ const state = saved || {
 }
 
 const mutations = {
+  setAutoQ(state, autoQ) {
+    state.settings.autoQ = autoQ
+  },
+
   setScale(state, scale) {
     state.settings.scale = scale
   },

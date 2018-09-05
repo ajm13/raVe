@@ -4,16 +4,25 @@
     <div class="vis-settings__panel" :class="{ hidden: !showSettings }">
       <i class="vis-settings__close material-icons" @click="showSettings = false">close</i>
       <h3>Settings</h3>
-      <label class="btn">
-        <input type="checkbox" v-model="showFPS" @change="setShowFPS(showFPS)"> show FPS
+      <label class="btn toggle">
+        <input type="checkbox" v-model="showFPS" @change="setShowFPS(showFPS)">
+        <div>show FPS</div>
       </label>
       <br>
-      <label>render scale</label>
-      <div class="vis-settings__scale">
-        <button @click="changeScale(-1)">-</button>
-        <div>{{ visualizer.scale }}</div>
-        <button @click="changeScale(1)">+</button>
+      <label>quality</label>
+      <div class="vis-settings__quality">
+        <button :disabled="visualizer.scale <= 0.5" @click="changeScale(-1)">
+          <i class="material-icons">chevron_left</i>
+        </button>
+        <div>{{ quality[visualizer.scale] }}</div>
+        <button :disabled="visualizer.scale >= 2.5" @click="changeScale(1)">
+          <i class="material-icons">chevron_right</i>
+        </button>
       </div>
+      <label class="btn toggle">
+        <input type="checkbox" v-model="autoQ" @change="setAutoQ(autoQ)">
+        <div>auto quality</div>
+      </label>
       {{ visualizer.canvas.width }}x{{ visualizer.canvas.height }}
     </div>
   </div>
@@ -26,6 +35,14 @@ export default {
   props: ['visualizer'],
 
   data: () => ({
+    quality: {
+      '0.5': 'low',
+      '1': 'medium',
+      '1.5': 'high',
+      '2': 'ultra',
+      '2.5': 'insane'
+    },
+    autoQ: false,
     showFPS: false,
     showSettings: false
   }),
@@ -33,14 +50,18 @@ export default {
   computed: mapState(['settings']),
 
   methods: {
-    ...mapMutations(['setScale', 'setShowFPS']),
+    ...mapMutations(['setAutoQ', 'setScale', 'setShowFPS']),
 
     changeScale(dir) {
       const v = this.visualizer
-      v.scale = Math.floor(v.scale * 10 + dir) / 10
-      v.scale = Math.max(0.5, Math.min(5, v.scale))
-      this.setScale(v.scale)
-      v.resize()
+      let scale = Math.floor(v.scale * 2 + dir) / 2
+      scale = Math.max(0.5, Math.min(2.5, scale))
+
+      if (scale !== v.scale) {
+        v.scale = scale
+        this.setScale(v.scale)
+        v.resize()
+      }
     },
     resizeHandler() {
       this.$forceUpdate()
@@ -48,6 +69,7 @@ export default {
   },
 
   created() {
+    this.autoQ = this.settings.autoQ
     this.showFPS = this.settings.showFPS
     window.addEventListener('resize', this.resizeHandler, 'vis-settings')
   },
@@ -108,36 +130,30 @@ export default {
     }
   }
 
-  &__scale {
+  &__quality {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
 
-    button,
-    div {
-      padding: 0.25em 1em;
-      border: 1px solid rgba(#fff, 0.2);
-    }
+    border: 1px solid rgba(#fff, 0.2);
+    border-radius: var(--border-radius);
+    overflow: hidden;
 
     button {
+      border: 0;
+      border-radius: 0;
+      padding: 0.25em 0.25em;
       flex: 0;
+
+      i {
+        font-size: inherit;
+        line-height: 1;
+      }
     }
 
     div {
       flex: 1;
-      border-left-width: 0;
-      border-right-width: 0;
-    }
-
-    button:first-of-type {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    button:last-of-type {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
+      padding: 0.25em 1em;
     }
   }
 }
