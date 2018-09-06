@@ -29,6 +29,15 @@ Vue.use(PageViewTime, {
   router
 })
 
+router.beforeEach((to, from, next) => {
+  const { autoEnter } = store.state.settings
+  if (to.name === 'home' && from.name !== 'visualizer') {
+    if (autoEnter) next('/visualizer')
+    else store.commit('setAutoEnter', true)
+  }
+  next()
+})
+
 new Vue({
   router,
   store,

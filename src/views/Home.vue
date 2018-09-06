@@ -1,52 +1,49 @@
 <template>
   <div class="welcome center">
-    <div class="dialog">
-      <div class="heading">welcome to</div>
-      <div class="title">
+    <div class="welcome__dialog">
+      <div class="welcome__heading">welcome to</div>
+      <div class="welcome__title">
         <rave/>
       </div>
-      <div class="subtitle">realtime audio visualizer experience</div>
+      <div class="welcome__subtitle">realtime audio visualizer experience</div>
 
-      <router-link tag="button" to="/visualizer" class="enter-btn">
-        <span class="darken">enter </span>
+      <router-link tag="button" to="/visualizer" class="welcome__enter">
+        <span>enter </span>
         <rave/>
       </router-link>
     </div>
   </div>
 </template>
 
-<script>
-export default {}
-</script>
-
-<style lang="scss" scoped>
+<style lang="scss">
 .welcome {
-  .dialog {
-    font-size: 2rem;
+  &__dialog {
     font-weight: 300;
     min-width: 500px;
   }
 
-  .heading {
+  &__heading {
+    font-size: 2rem;
     opacity: 0.8;
   }
 
-  .title {
-    font-size: 3.5em;
+  &__title {
+    font-size: 7rem;
   }
 
-  .subtitle {
-    font-size: 0.5em;
+  &__subtitle {
+    font-size: 1em;
     opacity: 0.6;
   }
 
-  .darken {
-    opacity: 0.5;
-  }
-
-  .enter-btn {
-    margin-top: 1em;
+  &__enter {
+    font-size: 1.5rem;
+    margin: 1em 0;
     border-color: rgba(#fff, 0.2);
+
+    > span:first-child {
+      opacity: 0.5;
+    }
   }
 }
 </style>

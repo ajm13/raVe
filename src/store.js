@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-const VERSION = '1.1'
+const VERSION = '1.2'
 const VERSION_KEY = 'raVe-v'
 const STORAGE_KEY = 'raVe'
 
@@ -19,6 +19,7 @@ if (version === VERSION && saved !== null) {
 
 const state = saved || {
   settings: {
+    autoEnter: true,
     autoQ: true,
     scale: null,
     showFPS: false,
@@ -28,6 +29,10 @@ const state = saved || {
 }
 
 const mutations = {
+  setAutoEnter(state, autoEnter) {
+    state.settings.autoEnter = autoEnter
+  },
+
   setAutoQ(state, autoQ) {
     state.settings.autoQ = autoQ
   },
