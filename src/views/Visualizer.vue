@@ -2,7 +2,8 @@
   <div class="vis">
     <div class="vis__container" ref="container"></div>
     <template v-if="visualizer">
-      <div class="vis__controls" :class="{ hidden: !showControls }" @mousemove="detectedActive" @click="detectedActive">
+      <div class="vis__controls" :class="{ hidden: !showControls }" @mousemove="detectedActive"
+        @click="detectedActive">
         <nav-bar/>
         <vis-settings ref="visSettings" :visualizer="visualizer" />
         <audio-controls :audio="audio" :microphone="microphone" :playlist="playlist" />
@@ -15,7 +16,8 @@
         <h2>Welcome to
           <rave/>
         </h2>
-        <p>Drag and drop audio files or toggle microphone to begin. To use with Spotify or YouTube, see
+        <p>Drag and drop audio files or toggle microphone to begin. To use with Spotify
+          or YouTube, see
           <router-link to="setup">setup</router-link>
         </p>
         <p>
@@ -143,19 +145,20 @@ export default {
       this.userActiveTO = setTimeout(() => {
         this.userActive = false
       }, 2000)
+    },
+
+    manageAutoQIV(cancel) {
+      clearInterval(this.autoQIV)
+
+      if (!cancel && this.settings.autoQ) {
+        this.autoQLastTick = this.visualizer.tick
+        this.autoQIV = setInterval(this.autoQuality, 1000)
+      }
     }
   },
 
   watch: {
-    showControls(value) {
-      if (this.settings.autoQ) {
-        if (value) clearInterval(this.autoQIV)
-        else {
-          this.autoQLastTick = this.visualizer.tick
-          this.autoQIV = setInterval(this.autoQuality, 1000)
-        }
-      }
-    }
+    showControls: 'manageAutoQIV'
   },
 
   created() {
@@ -167,6 +170,7 @@ export default {
     const firefox = navigator.userAgent.indexOf('Firefox') !== -1
     this.chromeOrFirefox = chrome || firefox
 
+    // set up visualizer stuff
     this.audio = new Audio()
     this.audio.volume = 0.5
     const acx = new (window.AudioContext || window.webkitAudioContext)()
@@ -191,6 +195,10 @@ export default {
   },
 
   mounted() {
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) this.manageAutoQIV(true)
+    }, 'visualizer')
+
     this.gpuHack = document.createElement('canvas')
     this.gpuHackCtx = this.gpuHack.getContext('webgl')
 
@@ -203,6 +211,8 @@ export default {
   },
 
   beforeDestroy() {
+    window.removeAllEventListeners('visualizer')
+
     clearTimeout(this.showDonateTO)
     clearTimeout(this.userActiveTO)
 
