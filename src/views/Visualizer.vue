@@ -147,10 +147,10 @@ export default {
       }, 2000)
     },
 
-    manageAutoQIV(cancel) {
+    manageAutoQIV() {
       clearInterval(this.autoQIV)
 
-      if (!cancel && this.settings.autoQ) {
+      if (this.settings.autoQ && !this.showControls && !document.hidden) {
         this.autoQLastTick = this.visualizer.tick
         this.autoQIV = setInterval(this.autoQuality, 1000)
       }
@@ -195,7 +195,7 @@ export default {
   },
 
   mounted() {
-    const listener = () => (document.hidden ? this.manageAutoQIV(true) : 0)
+    const listener = () => (document.hidden ? this.manageAutoQIV() : 0)
     document.addEventListener('visibilitychange', listener, 'visualizer')
 
     this.gpuHack = document.createElement('canvas')
