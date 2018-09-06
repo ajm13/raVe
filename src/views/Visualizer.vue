@@ -195,9 +195,8 @@ export default {
   },
 
   mounted() {
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) this.manageAutoQIV(true)
-    }, 'visualizer')
+    const listener = () => (document.hidden ? this.manageAutoQIV(true) : 0)
+    document.addEventListener('visibilitychange', listener, 'visualizer')
 
     this.gpuHack = document.createElement('canvas')
     this.gpuHackCtx = this.gpuHack.getContext('webgl')
