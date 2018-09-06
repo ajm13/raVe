@@ -21,6 +21,14 @@
         <rave/>'s rings, and the previous frames expand out from the center to visually
         display the history of the audio.
       </p>
+      <p>
+        Because
+        <rave/> uses all of the audio data available to it for visualization, every song
+        is visually unique. The same goes for the vocals; singers' voices are visually
+        distinct as they contain different harmonics and waveform types. Unique sounds
+        in songs look amazing, and in my opinion, the best songs to watch on
+        <rave/> are chill songs with not too much going on.
+      </p>
     </section>
     <section>
       <h2>Technical Details</h2>
@@ -64,12 +72,15 @@
       </p>
       <p>
         <rave/> generates 2 rings from the audio data, and both rings slowly morph between
-        a circle and hexagon. The inner ring is the audio waveform applied to the
-        ring's shape, and mirrored along the y-axis. The outer ring has symmetry
-        over both the x-axis and y-axis, and it maps the frequency data from 0&nbsp;Hz
-        at the horizon to about 7&nbsp;KHz at the top and bottom. The outer ring
-        also has the bass waveform applied to it, and creates a shockwave like effect
-        on bass hits.
+        a circle and hexagon.
+      </p>
+      <p>The inner ring is the audio waveform applied to the ring's shape, and mirrored
+        along the y-axis.
+      </p>
+      <p>The outer ring is made up of both frequency and time domain data, and is symmetry
+        over both the x and y axes. The frequency data goes from 0&nbsp;Hz at the
+        horizon to about 7&nbsp;KHz at the top and bottom. The time domain data used
+        for the outer ring is filtered to only show bass frequencies.
       </p>
     </section>
   </div>

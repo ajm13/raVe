@@ -57,16 +57,17 @@ export default class extends Visualizer {
       ctx.globalCompositeOperation = 'lighter'
     }
 
-    ctx.lineWidth = bassSpike ? white ? 3 : 5 : 1
+    ctx.lineWidth = bassSpike ? (white ? 3 : 5) : 1
 
-    let start = floor(0.5 * l), end = floor(1.5 * l)
+    let start = floor(0.5 * l)
+    let end = floor(1.5 * l)
     let offset = Utils.getMaxes(data[0].time, 1, start, end)[0][0] - start
 
     let q = 0.5 + 0.5 * cos(this.tick / 500)
 
     ctx.beginPath()
     for (let j = 0; j < 2 * l; j += 2) {
-      let i = ~~(abs(l - (j % (2 * l))))
+      let i = ~~abs(l - (j % (2 * l)))
       let t0 = data[0].time[i + offset] * d128 - 1
       let t1 = data[0].time[i + offset + 1] * d128 - 1
       let r = R + 10 * (t0 + t1) + 20 * bass

@@ -279,7 +279,7 @@ export default {
     }
 
     &.hidden {
-      // opacity: 0;
+      opacity: 0;
       cursor: none;
 
       .nav {
