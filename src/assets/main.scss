@@ -4,7 +4,7 @@
 
 :root {
   --content-width: 1000px;
-  --border-radius: 2px;
+  --border-radius: 3px;
 }
 
 ::-webkit-scrollbar {
@@ -110,6 +110,10 @@ button,
       outline: none;
     }
   }
+}
+
+img {
+  border-radius: var(--border-radius);
 }
 
 .toggle {
