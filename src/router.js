@@ -34,6 +34,11 @@ export default new Router({
     //   component: () => import(/* webpackChunkName: "history" */ './views/History.vue')
     // },
     {
+      path: '/contact',
+      name: 'contact',
+      component: () => import(/* webpackChunkName: "contact" */ './views/Contact.vue')
+    },
+    {
       path: '/donate',
       name: 'donate',
       component: () => import(/* webpackChunkName: "donate" */ './views/Donate.vue')
