@@ -10,13 +10,12 @@
     <div class="button next" @click="playlist.next()">
       <i class="material-icons">skip_next</i>
     </div>
-    <div class="title">{{ microphone.enabled ? 'microphone on' : audio.title || 'drop audio or enable mic' }}</div>
+    <div class="title">{{ title }}</div>
     <div class="button microphone" @click="microphone.toggle()">
       <i v-show="!microphone.enabled" class="material-icons off">mic_off</i>
       <i v-show="microphone.enabled" class="material-icons">mic</i>
     </div>
-    <div class="button playlist" @click="showPlaylist = !showPlaylist"
-      :class="{ off: !showPlaylist }">
+    <div class="button playlist" @click="showPlaylist = !showPlaylist" :class="{ off: !showPlaylist }">
       <i class="material-icons">queue_music</i>
       <transition name="playlist">
         <div class="list" v-show="showPlaylist">
@@ -59,6 +58,13 @@ export default {
     timePassed: '',
     timeRemaining: ''
   }),
+
+  computed: {
+    title() {
+      if (this.microphone.enabled) return 'microphone on'
+      else return this.audio.title || 'drag and drop audio or enable mic'
+    }
+  },
 
   methods: {
     playlistNext() {
