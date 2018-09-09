@@ -99,6 +99,11 @@ export default {
     }
   }
 
+  &__open,
+  &__close {
+    cursor: pointer;
+  }
+
   &__open {
     right: 0;
     padding: 1em 1.5em;

@@ -175,6 +175,10 @@ export default {
     position: relative;
   }
 
+  > .button {
+    cursor: pointer;
+  }
+
   > .button:active {
     color: #555;
   }

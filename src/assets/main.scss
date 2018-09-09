@@ -78,6 +78,7 @@ p {
 
 button,
 .btn {
+  cursor: pointer;
   font: inherit;
   color: inherit;
   background: transparent;
@@ -89,6 +90,7 @@ button,
   appearance: none;
 
   &:disabled {
+    cursor: not-allowed;
     opacity: 0.5;
   }
 
