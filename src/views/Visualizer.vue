@@ -38,8 +38,7 @@
       </div>
     </modal>
     <modal :show="settings.showDonate && showDonate && !showWelcome">
-      <donate-form/>
-      <br>
+      <donate-form class="vis__donate" />
       <div class="flex">
         <label class="btn block" v-if="donateNumShow > 1">
           <input v-model="noMoreDonate" type="checkbox"> don't show again
@@ -248,6 +247,14 @@ export default {
 
     h2 {
       text-align: center;
+    }
+  }
+
+  &__donate .crypto-link__qr {
+    background: #222;
+
+    &::after {
+      border-top-color: #222;
     }
   }
 

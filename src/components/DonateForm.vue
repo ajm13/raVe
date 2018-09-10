@@ -104,14 +104,13 @@ export default {
   .donate-crypto {
     position: relative;
     display: flex;
-    padding: 1em;
   }
 }
 
 .crypto-link {
   position: relative;
   cursor: pointer;
-  padding: 0 1em;
+  padding: 1em;
 
   &:hover &__qr {
     pointer-events: initial;
@@ -124,9 +123,9 @@ export default {
     opacity: 0;
 
     position: absolute;
-    top: -1em;
+    top: -0.5em;
     left: 50%;
-    transform: translate(-50%, -90%);
+    transform: translate(-50%, -110%);
 
     padding: 1em;
     border-radius: var(--border-radius);
