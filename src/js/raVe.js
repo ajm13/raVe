@@ -177,8 +177,8 @@ export default class extends Visualizer {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
     ctx.fillRect(-0.5 * cv.w, -0.5 * cv.h, cv.w, cv.h)
 
-    let r1 = 60
-    let r2 = 220 * offset // + 100 * bass_avg
+    let r1 = 0.05 * cv.h
+    let r2 = 4 * r1 * offset
 
     // draw color
     this.drawInner(ctx, data, bass, bassSpike, r1, false)
