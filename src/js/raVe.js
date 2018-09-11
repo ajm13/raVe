@@ -164,9 +164,9 @@ export default class extends Visualizer {
     this.bassbuf.shift()
     this.bassbuf.push(bass)
     let bassAvg = Utils.average(this.bassbuf)
-    let bassSpike = bass > 0.15 && bass > 1.3 * bassAvg
+    let bassSpike = bass > 0.3 && bass > 1.3 * bassAvg
 
-    bass += (0.1 * Utils.average(data[0].freq, 0, 2)) / 255
+    bass += 0.1 * (Utils.average(data[0].freq, 0, 2) / 255)
 
     ctx.clear()
     let s = 1.04
