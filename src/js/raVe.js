@@ -38,7 +38,9 @@ export default class extends Visualizer {
     super.render()
   }
 
-  drawInner(ctx, data, bass, bassSpike, R, white) {
+  drawInner(ctx, data, bass, white) {
+    let R = this.r1
+    let h = 0.15 * this.r1
     let l = floor(data[0].time.length / 3)
 
     let d128 = 1 / 128
@@ -47,17 +49,17 @@ export default class extends Visualizer {
     ctx.save()
 
     if (white) {
-      // ctx.fillStyle = `hsl(0, 0%, ${bassSpike ? 100 : 0}%)`
+      // ctx.fillStyle = `hsl(0, 0%, ${this.bassSpike ? 100 : 0}%)`
       ctx.fillStyle = '#000'
       ctx.strokeStyle = '#fff'
     } else {
-      let h = this.tick / 10 + 10 * sin(this.tick / 10)
-      let l = 55 - 20 * bass
-      ctx.strokeStyle = `hsl(${h % 360}, 100%, ${l}%)`
+      let hue = this.tick / 10 + 10 * sin(this.tick / 10)
+      let l = 55 - floor(20 * bass)
+      ctx.strokeStyle = `hsl(${hue % 360}, 100%, ${l}%)`
       ctx.globalCompositeOperation = 'lighter'
     }
 
-    ctx.lineWidth = bassSpike ? (white ? 3 : 5) : 1
+    ctx.lineWidth = this.bassSpike ? (white ? 3 : 5) : 1
 
     let start = floor(0.5 * l)
     let end = floor(1.5 * l)
@@ -70,7 +72,7 @@ export default class extends Visualizer {
       let i = ~~abs(l - (j % (2 * l)))
       let t0 = data[0].time[i + offset] * d128 - 1
       let t1 = data[0].time[i + offset + 1] * d128 - 1
-      let r = R + 10 * (t0 + t1) + 20 * bass
+      let r = R + h * (t0 + t1) + 2 * h * bass
       let a = tau * (j * d2l) - 0.5 * PI
 
       let s0 = poly(0, a, r)
@@ -87,7 +89,9 @@ export default class extends Visualizer {
     ctx.restore()
   }
 
-  drawOuter(ctx, data, bass, R, white) {
+  drawOuter(ctx, data, bass, white) {
+    let R = this.r2 * this.bassMul
+    let h = 0.2 * this.r2
     let l = floor(data[0].freq.length / 3)
     let avg = Utils.average(data[0].freq, 1, l)
     let rs = 1 + avg / 255
@@ -100,9 +104,9 @@ export default class extends Visualizer {
     if (white) {
       ctx.fillStyle = '#fff'
     } else {
-      let h = this.tick / 10 + 10 + 10 * sin(this.tick / 10)
+      let hue = this.tick / 10 + 10 + 10 * sin(this.tick / 10)
       let l = 52 + floor(bass * 5)
-      ctx.fillStyle = `hsl(${h % 360}, 100%, ${l}%)`
+      ctx.fillStyle = `hsl(${hue % 360}, 100%, ${l}%)`
       ctx.globalCompositeOperation = 'lighter'
     }
 
@@ -112,8 +116,8 @@ export default class extends Visualizer {
     for (let j = 0; j < 4 * l; j++) {
       let i = ~~abs(l - (j % (2 * l)))
       let f = rs * max(0, data[0].freq[i] - avg) * d255
-      let t = data[1].time[i * 2] + 0.5
-      let r = R + 50 * (f + t)
+      let t = data[1].time[i * 2]
+      let r = R + h * (f + t)
       let a = tau * j * d4l + 0.5 * PI
 
       let s0 = poly(0, a, r)
@@ -124,13 +128,13 @@ export default class extends Visualizer {
       ctx[j == 0 ? 'moveTo' : 'lineTo'](x, y)
     }
 
-    R -= 50 * bass ** 2
+    R -= h * bass ** 2
 
     for (let j = 0; j < 4 * l; j++) {
       let i = ~~abs(l - (j % (2 * l)))
       let f = rs * max(0, data[0].freq[i] - avg) * d255
-      let t = data[1].time[i * 2] + 0.5
-      let r = R + 50 * (t - 0.5 * f) - 1.5 * white
+      let t = data[1].time[i * 2]
+      let r = R + h * (t - 0.5 * f) - 1.5 * white
       let a = tau - tau * j * d4l + 0.5 * PI
 
       let s0 = poly(0, a, r)
@@ -148,6 +152,8 @@ export default class extends Visualizer {
     super.resize()
     this.buffer.width = this.canvas.width
     this.buffer.height = this.canvas.height
+    this.r1 = 0.05 * this.canvas.h
+    this.r2 = 4 * this.r1
   }
 
   render() {
@@ -159,12 +165,12 @@ export default class extends Visualizer {
     let data = this.analyzer.getData()
 
     let bass = Utils.max(data[1].time, abs)
-    let offset = 1 + bass / 3
+    this.bassMul = 1 + bass / 3
 
     this.bassbuf.shift()
     this.bassbuf.push(bass)
     let bassAvg = Utils.average(this.bassbuf)
-    let bassSpike = bass > 0.3 && bass > 1.3 * bassAvg
+    this.bassSpike = bass > 0.3 && bass > 1.3 * bassAvg
 
     bass += 0.1 * (Utils.average(data[0].freq, 0, 2) / 255)
 
@@ -177,20 +183,17 @@ export default class extends Visualizer {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
     ctx.fillRect(-0.5 * cv.w, -0.5 * cv.h, cv.w, cv.h)
 
-    let r1 = 0.05 * cv.h
-    let r2 = 4 * r1 * offset
-
     // draw color
-    this.drawInner(ctx, data, bass, bassSpike, r1, false)
-    this.drawOuter(ctx, data, bass, r2, false)
+    this.drawInner(ctx, data, bass, false)
+    this.drawOuter(ctx, data, bass, false)
 
     // copy to buffer
     buf.clear()
     buf.drawImage(cv, 0, 0)
 
     // draw white
-    this.drawInner(ctx, data, bass, bassSpike, r1, true)
-    this.drawOuter(ctx, data, bass, r2, true)
+    this.drawInner(ctx, data, bass, true)
+    this.drawOuter(ctx, data, bass, true)
   }
 
   destroy() {
