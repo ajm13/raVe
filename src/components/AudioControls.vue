@@ -62,7 +62,7 @@ export default {
   computed: {
     title() {
       if (this.microphone.enabled) return 'microphone on'
-      else return this.audio.title || 'drag and drop audio or enable mic'
+      else return this.audio.title || 'drag and drop audio or enable mic →'
     }
   },
 
