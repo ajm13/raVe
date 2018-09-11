@@ -44,7 +44,7 @@ export default {
     },
     autoQ: false,
     showFPS: false,
-    showSettings: false
+    showSettings: true
   }),
 
   computed: mapState(['settings']),
