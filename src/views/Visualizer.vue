@@ -89,7 +89,7 @@ export default {
     showWelcome: true,
     noMoreWelcome: false,
 
-    userActive: false,
+    userActive: true,
     userActiveTO: 0,
 
     chromeOrFirefox: false
@@ -186,11 +186,14 @@ export default {
     const audio = this.audio
     const microphone = this.microphone
 
-    this.source = {
-      get paused() {
-        return audio.paused && !microphone.enabled
-      }
-    }
+    this.source = { paused: false }
+    setTimeout(() => {
+      Object.defineProperty(this.source, 'paused', {
+        get: function() {
+          return audio.paused && !microphone.enabled
+        }
+      })
+    }, 2000)
   },
 
   mounted() {
