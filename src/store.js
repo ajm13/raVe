@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-const VERSION = '1.3'
+const VERSION = '1.4'
 const VERSION_KEY = 'raVe-v'
 const STORAGE_KEY = 'raVe'
 
@@ -21,7 +21,7 @@ const state = saved || {
   settings: {
     autoEnter: false,
     autoQ: true,
-    scale: null,
+    scale: 1,
     showFPS: false,
     showDonate: true,
     showWelcome: true

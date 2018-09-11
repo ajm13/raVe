@@ -204,7 +204,7 @@ export default {
       audio: this.source,
       analyzer: this.analyzer,
       container: this.$refs.container,
-      scale: this.settings.scale || devicePixelRatio
+      scale: this.settings.scale
     })
   },
 
