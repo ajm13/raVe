@@ -37,6 +37,11 @@
         </div>
       </div>
     </modal>
+    <modal :show="!settings.showStart && showStart && !showWelcome">
+      <div class="vis-start">
+        <button @click="startVis">click to start</button>
+      </div>
+    </modal>
     <modal :show="settings.showDonate && showDonate && !showWelcome">
       <donate-form class="vis__donate" />
       <div class="flex">
@@ -69,6 +74,7 @@ import raVe from '@/js/raVe'
 
 export default {
   data: () => ({
+    acx: null,
     analyzer: null,
     audio: null,
     microphone: null,
@@ -88,6 +94,8 @@ export default {
 
     showWelcome: true,
     noMoreWelcome: false,
+
+    showStart: true,
 
     userActive: true,
     userActiveTO: 0,
@@ -123,6 +131,11 @@ export default {
       }
     },
 
+    startVis() {
+      if (this.acx.resume) this.acx.resume()
+      this.showStart = false
+    },
+
     hideDonate() {
       this.showDonate = false
       if (this.noMoreDonate) this.stopShowingDonate()
@@ -131,6 +144,7 @@ export default {
     hideWelcome() {
       this.showWelcome = false
       if (this.noMoreWelcome) this.stopShowingWelcome()
+      this.startVis()
     },
 
     displayDonate() {
@@ -172,19 +186,20 @@ export default {
     // set up visualizer stuff
     this.audio = new Audio()
     this.audio.volume = 0.5
-    const acx = new (window.AudioContext || window.webkitAudioContext)()
-    const src = acx.createMediaElementSource(this.audio)
-    src.connect(acx.destination)
+    this.acx = new (window.AudioContext || window.webkitAudioContext)()
+    const src = this.acx.createMediaElementSource(this.audio)
+    src.connect(this.acx.destination)
 
-    const pt = acx.createGain()
+    const pt = this.acx.createGain()
     src.connect(pt)
 
     this.playlist = new Playlist(this.audio)
-    this.microphone = new Microphone(this.audio, acx, pt)
-    this.analyzer = new AudioAnalyzer(acx, pt)
+    this.microphone = new Microphone(this.audio, this.acx, pt)
+    this.analyzer = new AudioAnalyzer(this.acx, pt)
 
     const audio = this.audio
     const microphone = this.microphone
+    this.microphone.toggle()
 
     this.source = { paused: false }
     setTimeout(() => {
