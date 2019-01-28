@@ -23,8 +23,7 @@ const state = saved || {
     autoQ: true,
     scale: 1,
     showFPS: false,
-    showDonate: true,
-    showWelcome: true
+    showDonate: true
   }
 }
 
@@ -47,10 +46,6 @@ const mutations = {
 
   stopShowingDonate(state) {
     state.settings.showDonate = false
-  },
-
-  stopShowingWelcome(state) {
-    state.settings.showWelcome = false
   }
 }
 

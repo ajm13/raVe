@@ -2,48 +2,50 @@
   <div class="vis">
     <div class="vis__container" ref="container"></div>
     <template v-if="visualizer">
-      <div class="vis__controls" :class="{ hidden: !showControls }" @mousemove="detectedActive"
-        @click="detectedActive">
+      <div
+        class="vis__controls"
+        :class="{ hidden: !showControls }"
+        @mousemove="detectedActive"
+        @click="detectedActive"
+      >
         <nav-bar/>
-        <vis-settings ref="visSettings" :visualizer="visualizer" />
-        <audio-controls :audio="audio" :microphone="microphone" :playlist="playlist" />
+        <vis-settings ref="visSettings" :visualizer="visualizer"/>
+        <audio-controls :audio="audio" :microphone="microphone" :playlist="playlist"/>
       </div>
-      <audio-dropzone :playlist="playlist" />
+      <audio-dropzone :playlist="playlist"/>
       <div v-if="settings.showFPS" class="vis__fps">{{ visualizer.fps }}</div>
     </template>
-    <modal :show="settings.showWelcome && showWelcome">
+    <modal :show="showWelcome">
       <div class="vis__welcome">
         <h2>Welcome to
           <rave/>
         </h2>
-        <p>Drag and drop audio files or toggle microphone to begin. To use with Spotify
-          or YouTube, see
+        <p>
+          Drag and drop audio files or toggle microphone to begin.
+          To use with Spotify or YouTube, see
           <router-link to="setup">setup</router-link>
         </p>
         <p>
           <strong>Tip:</strong> If
-          <rave/> is slow or choppy,
-          <template v-if="!chromeOrFirefox">try
+          <rave/>&nbsp;is slow or choppy,
+          <template v-if="!chromeOrFirefox">
+            try
             <a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a>
             or
-            <a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Mozilla Firefox</a>, or
-          </template>try turning down quality in the settings panel</p>
-        <p>Best viewed in fullscreen</p>
-        <div class="flex">
-          <label class="btn block">
-            <input v-model="noMoreWelcome" type="checkbox"> don't show again
-          </label>
-          <button @click="hideWelcome">dismiss</button>
+            <a
+              href="https://www.mozilla.org/en-US/firefox/"
+              target="_blank"
+            >Mozilla Firefox</a>, or
+          </template>try turning down quality in the settings panel
+        </p>
+        <p class="center">Best viewed in fullscreen</p>
+        <div class="flex center">
+          <button @click="hideWelcome">enter raVe</button>
         </div>
       </div>
     </modal>
-    <modal :show="!settings.showStart && showStart && !showWelcome">
-      <div class="vis-start">
-        <button @click="startVis">click to start</button>
-      </div>
-    </modal>
     <modal :show="settings.showDonate && showDonate && !showWelcome">
-      <donate-form class="vis__donate" />
+      <donate-form class="vis__donate"/>
       <div class="flex">
         <label class="btn block" v-if="donateNumShow > 1">
           <input v-model="noMoreDonate" type="checkbox"> don't show again
@@ -93,9 +95,6 @@ export default {
     donateNumShow: 0,
 
     showWelcome: true,
-    noMoreWelcome: false,
-
-    showStart: true,
 
     userActive: true,
     userActiveTO: 0,
@@ -113,7 +112,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['stopShowingDonate', 'stopShowingWelcome']),
+    ...mapMutations(['stopShowingDonate']),
 
     autoQuality() {
       const fps = this.visualizer.tick - this.autoQLastTick
@@ -131,20 +130,14 @@ export default {
       }
     },
 
-    startVis() {
+    hideWelcome() {
       if (this.acx.resume) this.acx.resume()
-      this.showStart = false
+      this.showWelcome = false
     },
 
     hideDonate() {
       this.showDonate = false
       if (this.noMoreDonate) this.stopShowingDonate()
-    },
-
-    hideWelcome() {
-      this.showWelcome = false
-      if (this.noMoreWelcome) this.stopShowingWelcome()
-      this.startVis()
     },
 
     displayDonate() {
@@ -175,7 +168,6 @@ export default {
   },
 
   created() {
-    this.showWelcome = this.settings.showWelcome
     this.showDonateTO = setTimeout(this.displayDonate, 6e4 * 20) // first at 20 min
     this.showDonateIV = setInterval(this.displayDonate, 6e4 * 60) // then every 60 min
 
