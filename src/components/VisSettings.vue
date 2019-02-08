@@ -1,6 +1,10 @@
 <template>
   <div class="vis-settings" ref="settings" v-if="visualizer">
-    <div class="vis-settings__open" :class="{ hidden: showSettings }" @click="showSettings = true">settings</div>
+    <div
+      class="vis-settings__open"
+      :class="{ hidden: showSettings }"
+      @click="showSettings = true"
+    >settings</div>
     <div class="vis-settings__panel" :class="{ hidden: !showSettings }">
       <i class="vis-settings__close material-icons" @click="showSettings = false">close</i>
       <h3>Settings</h3>
@@ -147,7 +151,8 @@ export default {
     button {
       border: 0;
       border-radius: 0;
-      padding: 0.25em 0.25em;
+      padding: 0.25em;
+      line-height: 0;
       flex: 0;
 
       i {
