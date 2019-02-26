@@ -5,7 +5,7 @@
       <div class="welcome__title">
         <rave/>
       </div>
-      <div class="welcome__subtitle">realtime audio visualizer experience</div>
+      <div class="welcome__subtitle">real-time audio visualizer experience</div>
 
       <router-link tag="button" to="/visualizer" class="welcome__enter">
         <span>enter </span>

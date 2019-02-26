@@ -6,7 +6,7 @@
         <rave />?</h2>
       <p>
         <rave /> stands for
-        <strong>realtime audio visualizer experience</strong>.
+        <strong>real-time audio visualizer experience</strong>.
       </p>
       <p>
         Most music visualizers out there right now, such as the ones found in iTunes and
@@ -35,7 +35,7 @@
       <p>
         <rave /> uses the
         <strong>Web Audio API</strong> and
-        <strong>Canvas API</strong> to collect and draw the audio data in realtime.
+        <strong>Canvas API</strong> to collect and draw the audio data in real-time.
       </p>
       <p>
         With
