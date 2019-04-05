@@ -15,7 +15,11 @@
       <i v-show="!microphone.enabled" class="material-icons off">mic_off</i>
       <i v-show="microphone.enabled" class="material-icons">mic</i>
     </div>
-    <div class="button playlist" @click="showPlaylist = !showPlaylist" :class="{ off: !showPlaylist }">
+    <div
+      class="button playlist"
+      @click="showPlaylist = !showPlaylist"
+      :class="{ off: !showPlaylist }"
+    >
       <i class="material-icons">queue_music</i>
       <transition name="playlist">
         <div class="list" v-show="showPlaylist">
@@ -35,6 +39,8 @@
 </template>
 
 <script>
+import Utils from '@/js/Utils'
+
 export default {
   props: {
     audio: {
@@ -70,6 +76,7 @@ export default {
     playlistNext() {
       this.playlist.next()
     },
+
     timeUpdate() {
       let p = this.audio.currentTime / this.audio.duration
       let bar = document.querySelector('.progress > .scrubber')
@@ -79,18 +86,22 @@ export default {
       this.timePassed = t
       this.timeRemaining = Math.floor(this.audio.duration) - t
     },
+
     togglePlay() {
       if (this.audio.ended && this.playlist.hasNext()) this.playlist.next()
 
       if (this.audio.paused && this.audio.readyState == 4) this.audio.play()
       else this.audio.pause()
     },
+
     updatePaused() {
       this.paused = this.audio.paused
     },
+
     stopMicOnPlay() {
       if (this.microphone.enabled) this.microphone.toggle()
     },
+
     scrub(e) {
       let { progress } = this.$refs
       let p = e.offsetX / progress.offsetWidth
@@ -98,23 +109,27 @@ export default {
       this.audio.currentTime = p * this.audio.duration
       if (paused) this.audio.pause()
     },
+
     mousedown(e) {
       if (!this.audio.src) return
       this.seeking = e.pageX - e.offsetX
       this.scrub(e)
     },
+
     mousemove(e) {
       if (this.seeking) {
         let { progress } = this.$refs
         let offset = e.pageX - this.seeking
-        offset = Math.max(0, Math.min(progress.offsetWidth, offset))
+        offset = Utils.clamp(offset, 0, progress.offsetWidth)
         if (offset == progress.offsetWidth) this.seeking = false
         this.scrub({ offsetX: offset })
       }
     },
+
     mouseup() {
       this.seeking = false
     },
+
     keyup(e) {
       e.preventDefault()
       switch (e.keyCode) {

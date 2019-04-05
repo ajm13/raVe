@@ -36,6 +36,7 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
+import Utils from '@/js/Utils'
 
 export default {
   props: ['visualizer'],
@@ -62,7 +63,7 @@ export default {
     changeScale(dir) {
       const v = this.visualizer
       let scale = Math.floor(v.scale * 2 + dir) / 2
-      scale = Math.max(0.5, Math.min(2.5, scale))
+      scale = Utils.clamp(scale, 0.5, 2.5)
 
       if (scale !== v.scale) {
         v.scale = scale

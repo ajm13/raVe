@@ -18,6 +18,10 @@ export default {
     return avg
   },
 
+  clamp(x, min, max) {
+    return Math.max(min, Math.min(max, x))
+  },
+
   lerp(a, b, n) {
     return n * (b - a) + a
   },
@@ -51,44 +55,6 @@ export default {
     }
 
     return maxes
-  },
-
-  avgbin(data, n, lengths) {
-    n = Math.floor(n)
-    let tmpdata = new Array(n).fill(0)
-    let bl = Math.floor(data.length / n)
-
-    if (lengths) {
-      n = lengths.length
-      for (let i = 0; i < n; i++) {
-        bl = lengths
-        if (bl[i][1] !== undefined) {
-          for (let c = 0; c < bl[i][1]; c++) {
-            for (let j = 0; j < bl[i][0]; j++) {
-              tmpdata[i] += data[bl[i][0] * i + j]
-            }
-            tmpdata[i] = tmpdata[i] / bl[i][0]
-          }
-        } else {
-          for (let j = 0; j < bl[i]; j++) {
-            tmpdata[i] += data[bl[i] * i + j]
-          }
-          tmpdata[i] = tmpdata[i] / bl[i]
-        }
-      }
-    } else {
-      for (let i = 0; i < n; i++) {
-        for (let j = 0; j < bl; j++) {
-          tmpdata[i] += data[bl * i + j]
-        }
-        tmpdata[i] = tmpdata[i] / bl
-      }
-    }
-    return tmpdata
-  },
-
-  remap(value, low1, high1, low2, high2) {
-    return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1)
   },
 
   dist(x1, y1, x2, y2) {
