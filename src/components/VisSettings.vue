@@ -1,18 +1,20 @@
 <template>
   <div class="vis-settings" ref="settings" v-if="visualizer">
-    <div
-      class="vis-settings__open"
-      :class="{ hidden: showSettings }"
-      @click="showSettings = true"
-    >settings</div>
+    <div class="vis-settings__open" :class="{ hidden: showSettings }" @click="showSettings = true">
+      settings
+    </div>
     <div class="vis-settings__panel" :class="{ hidden: !showSettings }">
       <i class="vis-settings__close material-icons" @click="showSettings = false">close</i>
       <h3>Settings</h3>
       <label class="btn toggle">
-        <input type="checkbox" v-model="showFPS" @change="setShowFPS(showFPS)">
+        <input type="checkbox" :value="fullscreen" @click="toggleFullscreen" />
+        <div>fullscreen</div>
+      </label>
+      <label class="btn toggle">
+        <input type="checkbox" v-model="showFPS" @change="setShowFPS(showFPS)" />
         <div>show FPS</div>
       </label>
-      <br>
+      <br />
       <label>quality</label>
       <div class="vis-settings__quality">
         <button :disabled="visualizer.scale <= 0.5" @click="changeScale(-1)">
@@ -24,7 +26,7 @@
         </button>
       </div>
       <label class="btn toggle">
-        <input type="checkbox" v-model="autoQ" @change="setAutoQ(autoQ)">
+        <input type="checkbox" v-model="autoQ" @change="setAutoQ(autoQ)" />
         <div>auto quality</div>
       </label>
       {{ visualizer.canvas.width }}x{{ visualizer.canvas.height }}
@@ -48,7 +50,8 @@ export default {
     },
     autoQ: false,
     showFPS: false,
-    showSettings: true
+    showSettings: true,
+    fullscreen: false
   }),
 
   computed: mapState(['settings']),
@@ -67,6 +70,19 @@ export default {
         v.resize()
       }
     },
+
+    toggleFullscreen() {
+      if (this.fullscreen) {
+        document.exitFullscreen()
+      } else {
+        document.body.requestFullscreen()
+      }
+    },
+
+    fullscreenHandler() {
+      this.fullscreen = !!document.fullscreenElement
+    },
+
     resizeHandler() {
       this.$forceUpdate()
     }
@@ -75,7 +91,9 @@ export default {
   created() {
     this.autoQ = this.settings.autoQ
     this.showFPS = this.settings.showFPS
+
     window.addEventListener('resize', this.resizeHandler, 'vis-settings')
+    window.addEventListener('fullscreenchange', this.fullscreenHandler, 'vis-settings')
   },
 
   beforeDestroy() {
