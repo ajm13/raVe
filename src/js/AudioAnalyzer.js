@@ -97,15 +97,12 @@ export default class AudioAnalyzer {
 
       // split the channels if specified
       if (opt.channel == 'left' || opt.channel == 'right') {
-        let channel = opt.channel == 'left' ? 0 : 1,
-          splitter = this.audioContext.createChannelSplitter(2)
+        let channel = opt.channel == 'left' ? 0 : 1
+        let splitter = this.audioContext.createChannelSplitter(2)
 
         audioSource = this.audioContext.createGain()
         this.audioSource.connect(splitter)
-        splitter.connect(
-          audioSource,
-          channel
-        )
+        splitter.connect(audioSource, channel)
 
         ana.id += 'lr'[channel]
       }

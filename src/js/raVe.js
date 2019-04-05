@@ -3,7 +3,7 @@
 import Visualizer from './Visualizer'
 import Utils from './Utils'
 
-let { abs, cos, floor, max, min, sin, PI } = Math
+let { abs, cos, floor, max, sin, PI } = Math
 let tau = 2 * PI
 
 function poly(n = 0, a = 0, r = 1) {

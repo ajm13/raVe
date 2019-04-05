@@ -1,7 +1,6 @@
 <template>
   <transition name="note">
-    <div class="audio-dropzone" v-show="visible" @dragover="no" @dragleave="dragLeave"
-      @drop="drop">
+    <div class="audio-dropzone" v-show="visible" @dragover="no" @dragleave="dragLeave" @drop="drop">
       <div class="note">
         drop audio files anywhere
         <br />
@@ -29,9 +28,11 @@ export default {
 
   methods: {
     no: e => e.preventDefault(),
+
     dragLeave() {
       this.visible = false
     },
+
     drop(e) {
       this.no(e)
 

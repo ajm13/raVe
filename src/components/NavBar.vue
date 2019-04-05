@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <div class="nav-links">
-      <router-link to="/"><rave/></router-link>
+      <router-link to="/"><rave /></router-link>
       <router-link to="setup">setup</router-link>
       <router-link to="about">about</router-link>
       <!-- <router-link to="history">history</router-link> -->

@@ -2,16 +2,13 @@
   <div class="contact center">
     <div class="contact-form">
       <h1>Contact</h1>
+      <p>Loving <rave />? Have comments, questions, or suggestions?</p>
       <p>
-        Loving
-        <rave/>? Have comments, questions, or suggestions?
+        Want to use <rave /> at a public venue? Or have a custom version of <rave /> built just for
+        you?
       </p>
       <p>
-        Want to use <rave/> at a public venue? Or have a custom version of <rave/> built just for you?
-      </p>
-      <p>
-        Email me at
-        <a :href="`mailto:${user}@${domain}`">{{ user }}@{{ domain }}</a>
+        Email me at <a :href="`mailto:${user}@${domain}`">{{ user }}@{{ domain }}</a>
       </p>
     </div>
   </div>

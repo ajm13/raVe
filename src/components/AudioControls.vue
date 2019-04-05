@@ -1,13 +1,13 @@
 <template>
-  <div class="audio-controls" :class="{ micOnly: microphone.enabled }">
-    <div class="button prev" @click="audio.currentTime = 0">
+  <div class="audio-controls" :class="{ 'mic-on': microphone.enabled }">
+    <div class="button audio-control" @click="audio.currentTime = 0">
       <i class="material-icons">skip_previous</i>
     </div>
-    <div class="button playPause" @click="togglePlay()">
+    <div class="button audio-control play-pause" @click="togglePlay()">
       <i v-show="paused" class="material-icons">play_arrow</i>
       <i v-show="!paused" class="material-icons">pause</i>
     </div>
-    <div class="button next" @click="playlist.next()">
+    <div class="button audio-control" @click="playlist.next()">
       <i class="material-icons">skip_next</i>
     </div>
     <div class="title">{{ title }}</div>
@@ -173,6 +173,10 @@ export default {
 
 <style lang="scss">
 .audio-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   position: fixed;
   bottom: 2em;
   left: 50%;
@@ -188,14 +192,6 @@ export default {
   transform: translateX(-50%);
   user-select: none;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  > div {
-    position: relative;
-  }
-
   > .button {
     cursor: pointer;
   }
@@ -204,15 +200,18 @@ export default {
     color: #555;
   }
 
-  .playPause i {
+  .play-pause i {
     transform: scale(1.2);
   }
 
+  &.mic-on .audio-control,
   .off {
     color: #888;
   }
 
   .playlist {
+    position: relative;
+
     .list {
       position: absolute;
       bottom: 100%;
@@ -232,14 +231,6 @@ export default {
     .playlist-leave-active {
       opacity: 0;
       bottom: 50% !important;
-    }
-
-    .cover {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
     }
 
     .list ul {

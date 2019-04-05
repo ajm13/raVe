@@ -3,13 +3,12 @@
     <div class="welcome__dialog">
       <div class="welcome__heading">welcome to</div>
       <div class="welcome__title">
-        <rave/>
+        <rave />
       </div>
       <div class="welcome__subtitle">real-time audio visualizer experience</div>
 
       <router-link tag="button" to="/visualizer" class="welcome__enter">
-        <span>enter </span>
-        <rave/>
+        <span>enter </span><rave />
       </router-link>
     </div>
   </div>

@@ -8,35 +8,29 @@
         @mousemove="detectedActive"
         @click="detectedActive"
       >
-        <nav-bar/>
-        <vis-settings ref="visSettings" :visualizer="visualizer"/>
-        <audio-controls :audio="audio" :microphone="microphone" :playlist="playlist"/>
+        <nav-bar />
+        <vis-settings ref="visSettings" :visualizer="visualizer" />
+        <audio-controls :audio="audio" :microphone="microphone" :playlist="playlist" />
       </div>
-      <audio-dropzone :playlist="playlist"/>
+      <audio-dropzone :playlist="playlist" />
       <div v-if="settings.showFPS" class="vis__fps">{{ visualizer.fps }}</div>
     </template>
     <modal :show="showWelcome">
       <div class="vis__welcome">
-        <h2>Welcome to
-          <rave/>
-        </h2>
+        <h2>Welcome to <rave /></h2>
         <p>
-          Drag and drop audio files or toggle microphone to begin.
-          To use with Spotify or YouTube, see
-          <router-link to="setup">setup</router-link>
+          Drag and drop audio files or toggle microphone to begin. To use with Spotify or YouTube,
+          see <router-link to="setup">setup</router-link>
         </p>
         <p>
-          <strong>Tip:</strong> If
-          <rave/>&nbsp;is slow or choppy,
+          <strong>Tip:</strong> If <rave />&nbsp;is slow or choppy,
           <template v-if="!chromeOrFirefox">
             try
             <a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a>
             or
-            <a
-              href="https://www.mozilla.org/en-US/firefox/"
-              target="_blank"
-            >Mozilla Firefox</a>, or
-          </template>try turning down quality in the settings panel
+            <a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Mozilla Firefox</a>, or
+          </template>
+          try turning down quality in the settings panel
         </p>
         <p class="center">Best viewed in fullscreen</p>
         <div class="flex center">
@@ -45,10 +39,10 @@
       </div>
     </modal>
     <modal :show="settings.showDonate && showDonate && !showWelcome">
-      <donate-form class="vis__donate"/>
+      <donate-form class="vis__donate" />
       <div class="flex">
         <label class="btn block" v-if="donateNumShow > 1">
-          <input v-model="noMoreDonate" type="checkbox"> don't show again
+          <input v-model="noMoreDonate" type="checkbox" /> don't show again
         </label>
         <div v-else></div>
         <button @click="hideDonate">dismiss</button>
@@ -196,9 +190,7 @@ export default {
     this.source = { paused: false }
     setTimeout(() => {
       Object.defineProperty(this.source, 'paused', {
-        get: function() {
-          return audio.paused && !microphone.enabled
-        }
+        get: () => audio.paused && !microphone.enabled
       })
     }, 2000)
   },
