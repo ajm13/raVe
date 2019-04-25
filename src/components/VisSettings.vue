@@ -7,7 +7,7 @@
       <i class="vis-settings__close material-icons" @click="showSettings = false">close</i>
       <h3>Settings</h3>
       <label class="btn toggle">
-        <input type="checkbox" :value="fullscreen" @click="toggleFullscreen" />
+        <input type="checkbox" v-model="fullscreen" @click.prevent="toggleFullscreen" />
         <div>fullscreen</div>
       </label>
       <label class="btn toggle">
