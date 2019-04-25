@@ -59,7 +59,7 @@ export default {
     this.bgInterval = setInterval(this.changeBackground, 30000)
   },
 
-  destroyed() {
+  beforeDestroy() {
     clearInterval(this.bgInterval)
   },
 
