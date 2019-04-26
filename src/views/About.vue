@@ -5,7 +5,7 @@
       <h2>What is <rave />?</h2>
       <p><rave /> stands for <strong>real-time audio visualizer experience</strong>.</p>
       <p>
-        Most music visualizers out there right now, such as the ones found in iTunes and Windows
+        Most music visualizers available right now, such as the ones found in iTunes and Windows
         Media Player, don't offer true "music visualization," but rather "music synched visuals."
         They typically have a predetermined animation, where different aspects of it will change
         when a beat is detected in the song.
@@ -13,8 +13,8 @@
       <p>
         <rave /> isn't an animation that reacts to the beat, but rather a true visualization of the
         audio data itself. The frequencies and waveforms of the incoming audio are used to generate
-        <rave />'s rings, and the previous frames expand out from the center to visually display the
-        history of the audio.
+        <rave />'s rings, and the previous frames expand out from the center to display the history
+        of the audio.
       </p>
       <p>
         Because <rave /> uses all of the audio data available to it for visualization, every song is
