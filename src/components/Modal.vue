@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal" :style="vars" :class="{ peek }">
     <transition name="zoom">
       <div class="modal__cover" v-if="show">
         <div class="modal__content">
@@ -12,7 +12,19 @@
 
 <script>
 export default {
-  props: ['show']
+  props: {
+    show: Boolean,
+    peek: Boolean,
+    peekOffset: String
+  },
+
+  computed: {
+    vars() {
+      return {
+        '--peek-offset': this.peekOffset
+      }
+    }
+  }
 }
 </script>
 
@@ -37,6 +49,20 @@ export default {
     background: #111;
     line-height: 1.5;
     padding: 1.5em;
+
+    transition: transform 300ms ease, background 300ms ease;
+  }
+
+  &.peek {
+    pointer-events: none;
+  }
+
+  &.peek &__cover {
+    background: transparent;
+  }
+
+  &.peek &__content {
+    transform: translateY(calc(50% + 50vh - var(--peek-offset)));
   }
 }
 </style>

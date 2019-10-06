@@ -1,8 +1,8 @@
 <template>
   <div class="donate-form">
-    <h1>Enjoying <rave />?</h1>
+    <component :is="h">Enjoying <rave />?</component>
     <p>
-      I have been working on perfecting <rave /> for release for over 3 years, and am super proud of
+      I have been working on perfecting <rave /> for release for over 3 years, and am very proud of
       how it turned out.
     </p>
     <p>If you really enjoy it, buy me a coffee or pizza to show your appreciation!</p>
@@ -43,6 +43,13 @@
 
 <script>
 export default {
+  props: {
+    h: {
+      type: String,
+      default: 'h1'
+    }
+  },
+
   data: () => ({
     copied: false,
     copyTO: null,

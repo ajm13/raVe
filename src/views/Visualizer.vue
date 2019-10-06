@@ -4,9 +4,10 @@
     <template v-if="visualizer">
       <div
         class="vis__controls"
-        :class="{ hidden: !showControls }"
+        :class="{ hidden: !showControls || showDonate }"
         @mousemove="detectedActive"
         @click="detectedActive"
+        @click.self="userActive = false"
       >
         <nav-bar />
         <vis-settings ref="visSettings" :visualizer="visualizer" />
@@ -38,8 +39,12 @@
         </div>
       </div>
     </modal>
-    <modal :show="settings.showDonate && showDonate && !showWelcome">
-      <donate-form class="vis__donate" />
+    <modal
+      :show="settings.showDonate && showDonate && !showWelcome"
+      :peek="!showControls"
+      peekOffset="80px"
+    >
+      <donate-form h="h2" class="vis__donate" />
       <div class="flex">
         <label class="btn block" v-if="donateNumShow > 1">
           <input v-model="noMoreDonate" type="checkbox" /> don't show again
@@ -142,9 +147,10 @@ export default {
     detectedActive() {
       this.userActive = true
       clearTimeout(this.userActiveTO)
+      const delay = this.showDonate ? 7000 : 2000
       this.userActiveTO = setTimeout(() => {
         this.userActive = false
-      }, 2000)
+      }, delay)
     },
 
     manageAutoQIV() {
@@ -196,8 +202,19 @@ export default {
   },
 
   mounted() {
-    const listener = () => (document.hidden ? this.manageAutoQIV() : 0)
-    document.addEventListener('visibilitychange', listener, 'visualizer')
+    const onVisibility = () => (document.hidden ? this.manageAutoQIV() : 0)
+    document.addEventListener('visibilitychange', onVisibility, 'visualizer')
+
+    const onKeydown = e => {
+      if (e.code === 'KeyD') {
+        this.showDonate = true
+      }
+      if (e.code === 'Escape') {
+        e.preventDefault()
+        this.userActive = false
+      }
+    }
+    document.addEventListener('keydown', onKeydown, 'visualizer')
 
     this.gpuHack = document.createElement('canvas')
     this.gpuHackCtx = this.gpuHack.getContext('webgl')
