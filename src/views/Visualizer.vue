@@ -39,11 +39,7 @@
         </div>
       </div>
     </modal>
-    <modal
-      :show="settings.showDonate && showDonate && !showWelcome"
-      :peek="!showControls"
-      peekOffset="80px"
-    >
+    <modal :show="showDonate && !showWelcome" :peek="!showControls" peekOffset="80px">
       <donate-form h="h2" class="vis__donate" />
       <div class="flex">
         <label class="btn block" v-if="donateNumShow > 1">
@@ -139,8 +135,8 @@ export default {
       if (this.noMoreDonate) this.stopShowingDonate()
     },
 
-    displayDonate() {
-      this.showDonate = true
+    displayDonate(force = false) {
+      this.showDonate = force || this.settings.showDonate
       this.donateNumShow++
     },
 
@@ -168,7 +164,7 @@ export default {
   },
 
   created() {
-    this.showDonateTO = setTimeout(this.displayDonate, 6e4 * 20) // first at 20 min
+    this.showDonateTO = setTimeout(this.displayDonate, 6e4 * 15) // first at 15 min
     this.showDonateIV = setInterval(this.displayDonate, 6e4 * 60) // then every 60 min
 
     const chrome = window.chrome !== undefined
@@ -207,7 +203,7 @@ export default {
 
     const onKeydown = e => {
       if (e.code === 'KeyD') {
-        this.showDonate = true
+        this.displayDonate(true)
       }
       if (e.code === 'Escape') {
         e.preventDefault()
