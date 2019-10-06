@@ -50,7 +50,7 @@
       </p>
     </section>
     <section>
-      <h2>Anatomy of<rave /></h2>
+      <h2>Anatomy of <rave /></h2>
       <p class="img">
         <img src="@/assets/anatomy.jpg" alt="anatomy of raVe" />
       </p>
