@@ -136,17 +136,20 @@ export default {
     },
 
     displayDonate(force = false) {
+      clearTimeout(this.userActiveTO)
       this.showDonate = force || this.settings.showDonate
       this.donateNumShow++
     },
 
     detectedActive() {
-      this.userActive = true
       clearTimeout(this.userActiveTO)
-      const delay = this.showDonate ? 7000 : 2000
-      this.userActiveTO = setTimeout(() => {
-        this.userActive = false
-      }, delay)
+      this.userActive = true
+
+      if (!this.showDonate) {
+        this.userActiveTO = setTimeout(() => {
+          this.userActive = false
+        }, 2000)
+      }
     },
 
     manageAutoQIV() {
