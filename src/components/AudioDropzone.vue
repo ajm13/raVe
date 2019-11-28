@@ -12,13 +12,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      dragEnterHandler: null,
-      visible: false
-    }
-  },
-
   props: {
     playlist: {
       type: Object,
@@ -26,8 +19,16 @@ export default {
     }
   },
 
+  data: () => ({
+    visible: false
+  }),
+
   methods: {
     no: e => e.preventDefault(),
+
+    dragEnter() {
+      this.visible = true
+    },
 
     dragLeave() {
       this.visible = false
@@ -54,11 +55,7 @@ export default {
   },
 
   created() {
-    this.dragEnterHandler = () => {
-      this.visible = true
-    }
-
-    document.body.addEventListener('dragenter', this.dragEnterHandler, 'audio-dropzone')
+    document.body.addEventListener('dragenter', this.dragEnter, 'audio-dropzone')
   },
 
   beforeDestroy() {

@@ -16,7 +16,7 @@
       <audio-dropzone :playlist="playlist" />
       <div v-if="settings.showFPS" class="vis__fps">{{ visualizer.fps }}</div>
     </template>
-    <modal :show="showWelcome">
+    <modal :show="showWelcome" @click="hideWelcome">
       <div class="vis__welcome">
         <h2>Welcome to <rave /></h2>
         <p>
@@ -107,7 +107,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['stopShowingDonate']),
+    ...mapMutations(['setAutoEnter', 'stopShowingDonate']),
 
     autoQuality() {
       const fps = this.visualizer.tick - this.autoQLastTick
@@ -167,6 +167,8 @@ export default {
   },
 
   created() {
+    this.setAutoEnter(true)
+
     this.showDonateTO = setTimeout(this.displayDonate, 6e4 * 15) // first at 15 min
     this.showDonateIV = setInterval(this.displayDonate, 6e4 * 60) // then every 60 min
 

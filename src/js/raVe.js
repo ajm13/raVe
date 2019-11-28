@@ -7,8 +7,10 @@ let { abs, cos, floor, max, sin, PI } = Math
 let tau = 2 * PI
 
 function poly(n = 0, a = 0, r = 1) {
-  let pin = PI / n
-  if (n !== 0) r *= cos(pin) / cos(((a + 0.5 * PI) % (2 * pin)) - pin)
+  if (n !== 0) {
+    let pin = PI / n
+    r *= cos(pin) / cos(((a + 0.5 * PI) % (2 * pin)) - pin)
+  }
   return { x: r * cos(a), y: r * sin(a) }
 }
 

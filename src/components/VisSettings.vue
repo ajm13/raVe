@@ -4,7 +4,7 @@
       settings
     </div>
     <div class="vis-settings__panel" :class="{ hidden: !showSettings }">
-      <i class="vis-settings__close material-icons" @click="showSettings = false">close</i>
+      <i class="vis-settings__close material-icons" @click="showSettings = false">chevron_right</i>
       <h3>Settings</h3>
       <label class="btn toggle">
         <input type="checkbox" v-model="fullscreen" @click.prevent="toggleFullscreen" />
@@ -17,11 +17,11 @@
       <br />
       <label>quality</label>
       <div class="vis-settings__quality">
-        <button :disabled="visualizer.scale <= 0.5" @click="changeScale(-1)">
+        <button :disabled="visualizer.scale <= quality.min" @click="changeScale(-1)">
           <i class="material-icons">chevron_left</i>
         </button>
         <div>{{ quality[visualizer.scale] }}</div>
-        <button :disabled="visualizer.scale >= 2.5" @click="changeScale(1)">
+        <button :disabled="visualizer.scale >= quality.max" @click="changeScale(1)">
           <i class="material-icons">chevron_right</i>
         </button>
       </div>
@@ -43,11 +43,14 @@ export default {
 
   data: () => ({
     quality: {
+      min: 0.5,
+      max: 3,
       '0.5': 'low',
       '1': 'medium',
       '1.5': 'high',
       '2': 'ultra',
-      '2.5': 'insane'
+      '2.5': 'insane',
+      '3': 'ludicrous'
     },
     autoQ: false,
     showFPS: false,
@@ -62,8 +65,10 @@ export default {
 
     changeScale(dir) {
       const v = this.visualizer
+      const { min, max } = this.quality
+
       let scale = Math.floor(v.scale * 2 + dir) / 2
-      scale = Utils.clamp(scale, 0.5, 2.5)
+      scale = Utils.clamp(scale, min, max)
 
       if (scale !== v.scale) {
         v.scale = scale

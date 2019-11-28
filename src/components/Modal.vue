@@ -1,8 +1,8 @@
 <template>
   <div class="modal" :style="vars" :class="{ peek }">
     <transition name="zoom">
-      <div class="modal__cover" v-if="show">
-        <div class="modal__content">
+      <div class="modal__cover" v-if="show" v-on="$listeners">
+        <div class="modal__content" @click.stop>
           <slot />
         </div>
       </div>
