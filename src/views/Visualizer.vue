@@ -338,9 +338,11 @@ export default {
   }
 
   canvas {
-    width: 100%;
+    position: relative;
+    top: 50%;
+    left: 50%;
     height: 100%;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(-50%, -50%, 0);
   }
 }
 </style>

@@ -282,7 +282,7 @@ export default {
   }
 
   .title {
-    width: 400px;
+    width: 18em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

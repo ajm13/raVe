@@ -1,12 +1,14 @@
 <template>
   <div class="nav">
-    <div class="nav-links">
-      <router-link to="/"><rave /></router-link>
-      <router-link to="setup">setup</router-link>
-      <router-link to="about">about</router-link>
-      <router-link to="contact">contact</router-link>
-      <router-link to="donate">donate</router-link>
-      <a href="https://github.com/ajm13/raVe" target="_blank">code</a>
+    <div class="nav-scroll">
+      <div class="nav-links">
+        <router-link to="/"><rave /></router-link>
+        <router-link to="setup">setup</router-link>
+        <router-link to="about">about</router-link>
+        <router-link to="contact">contact</router-link>
+        <router-link to="donate">donate</router-link>
+        <a href="https://github.com/ajm13/raVe" target="_blank">code</a>
+      </div>
     </div>
   </div>
 </template>
@@ -20,12 +22,12 @@
   width: 100%;
   transform: translate3d(0, 0, 0);
 
-  &-links {
+  &-scroll {
     width: 100%;
     max-width: var(--content-width);
+    overflow-x: auto;
 
     z-index: 1000;
-    display: flex;
 
     margin: 0 auto;
     padding: 1em;
@@ -34,11 +36,17 @@
     background: #111;
   }
 
+  &-links {
+    display: flex;
+    justify-content: space-evenly;
+    min-width: min-content;
+  }
+
   a {
     position: relative;
 
     padding: 0.5em;
-    margin: 0 1em;
+    margin: 0 0.5em;
     border: 0;
 
     color: inherit;
