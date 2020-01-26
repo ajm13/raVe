@@ -1,3 +1,5 @@
+import Utils from '@/js/Utils'
+
 export default class Visualizer {
   constructor(options, settings) {
     this.audio = options.audio
@@ -25,7 +27,7 @@ export default class Visualizer {
     this.audio.visID = this.id
 
     this.fpsID = window.setInterval(this.calculateFPS.bind(this), 1000)
-    this.resizeHandler = this.resize.bind(this)
+    this.resizeHandler = Utils.debounce(this.resize.bind(this), 200)
     window.addEventListener('resize', this.resizeHandler, 'visualizer')
   }
 

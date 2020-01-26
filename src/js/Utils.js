@@ -1,4 +1,12 @@
 export default {
+  debounce(fn, ms = 300) {
+    let id = 0
+    return () => {
+      clearTimeout(id)
+      id = setTimeout(fn, ms)
+    }
+  },
+
   time(fn) {
     let s = Date.now()
     fn()

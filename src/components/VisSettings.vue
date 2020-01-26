@@ -87,10 +87,6 @@ export default {
 
     fullscreenHandler() {
       this.fullscreen = !!document.fullscreenElement
-    },
-
-    resizeHandler() {
-      this.$forceUpdate()
     }
   },
 
@@ -98,7 +94,8 @@ export default {
     this.autoQ = this.settings.autoQ
     this.showFPS = this.settings.showFPS
 
-    window.addEventListener('resize', this.resizeHandler, 'vis-settings')
+    const resizeHandler = Utils.debounce(this.$forceUpdate.bind(this))
+    window.addEventListener('resize', resizeHandler, 'vis-settings')
     window.addEventListener('fullscreenchange', this.fullscreenHandler, 'vis-settings')
   },
 
