@@ -157,7 +157,7 @@ export default {
     this.audio.addEventListener('timeupdate', this.timeUpdate, 'audio-controls')
     this.audio.addEventListener('pause', this.updatePaused, 'audio-controls')
     this.audio.addEventListener('play', this.updatePaused, 'audio-controls')
-    this.audio.addEventListener('ended', this.playlist, 'audio-controls')
+    this.audio.addEventListener('ended', this.playlistNext, 'audio-controls')
     this.audio.addEventListener('play', this.stopMicOnPlay, 'audio-controls')
     this.playlist.callback = () => (this.audioTitle = this.audio.title)
 
