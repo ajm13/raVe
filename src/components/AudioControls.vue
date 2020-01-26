@@ -7,7 +7,7 @@
       <i v-show="paused" class="material-icons">play_arrow</i>
       <i v-show="!paused" class="material-icons">pause</i>
     </div>
-    <div class="button audio-control" @click="playlist.next()">
+    <div class="button audio-control" @click="playlistNext()">
       <i class="material-icons">skip_next</i>
     </div>
     <div class="title">{{ title }}</div>
@@ -61,6 +61,7 @@ export default {
     paused: true,
     seeking: false,
     showPlaylist: false,
+    audioTitle: '',
     timePassed: '',
     timeRemaining: ''
   }),
@@ -68,7 +69,7 @@ export default {
   computed: {
     title() {
       if (this.microphone.enabled) return 'microphone on'
-      else return this.audio.title || 'drag and drop audio or enable mic →'
+      else return this.audioTitle || 'drop audio or enable mic →'
     }
   },
 
@@ -88,7 +89,7 @@ export default {
     },
 
     togglePlay() {
-      if (this.audio.ended && this.playlist.hasNext()) this.playlist.next()
+      if (this.audio.ended) this.playlistNext()
 
       if (this.audio.paused && this.audio.readyState == 4) this.audio.play()
       else this.audio.pause()
@@ -140,7 +141,7 @@ export default {
           this.audio.currentTime = 0
           break
         case 39:
-          this.playlist.next()
+          this.playlistNext()
           break
         case 77:
           this.microphone.toggle()
@@ -158,6 +159,7 @@ export default {
     this.audio.addEventListener('play', this.updatePaused, 'audio-controls')
     this.audio.addEventListener('ended', this.playlist, 'audio-controls')
     this.audio.addEventListener('play', this.stopMicOnPlay, 'audio-controls')
+    this.playlist.callback = () => (this.audioTitle = this.audio.title)
 
     progress.addEventListener('mousedown', this.mousedown, 'audio-controls')
     document.addEventListener('mousemove', this.mousemove, 'audio-controls')
