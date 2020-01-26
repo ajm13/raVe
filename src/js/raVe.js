@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import Visualizer from './Visualizer'
-import Utils from './Utils'
+import utils from './utils'
 
 let { abs, cos, floor, max, sin, PI } = Math
 let tau = 2 * PI
@@ -65,7 +65,7 @@ export default class extends Visualizer {
 
     let start = floor(0.5 * l)
     let end = floor(1.5 * l)
-    let offset = Utils.getMaxes(data[0].time, 1, start, end)[0][0] - start
+    let offset = utils.getMaxes(data[0].time, 1, start, end)[0][0] - start
 
     let q = 0.5 + 0.5 * cos(this.tick / 500)
 
@@ -79,8 +79,8 @@ export default class extends Visualizer {
 
       let s0 = poly(0, a, r)
       let s1 = poly(6, a, 1.25 * r)
-      let x = Utils.lerp(s0.x, s1.x, q)
-      let y = Utils.lerp(s0.y, s1.y, q)
+      let x = utils.lerp(s0.x, s1.x, q)
+      let y = utils.lerp(s0.y, s1.y, q)
 
       ctx[j == 0 ? 'moveTo' : 'lineTo'](x, y)
     }
@@ -95,7 +95,7 @@ export default class extends Visualizer {
     let R = this.r2 * this.bassMul
     let h = 0.2 * this.r2
     let l = floor(data[0].freq.length / 3)
-    let avg = Utils.average(data[0].freq, 1, l)
+    let avg = utils.average(data[0].freq, 1, l)
     let rs = 1 + avg / 255
 
     let d255 = 1 / 255
@@ -124,8 +124,8 @@ export default class extends Visualizer {
 
       let s0 = poly(0, a, r)
       let s1 = poly(6, a, 1.25 * r)
-      let x = Utils.lerp(s0.x, s1.x, q)
-      let y = Utils.lerp(s0.y, s1.y, q)
+      let x = utils.lerp(s0.x, s1.x, q)
+      let y = utils.lerp(s0.y, s1.y, q)
 
       ctx[j == 0 ? 'moveTo' : 'lineTo'](x, y)
     }
@@ -141,8 +141,8 @@ export default class extends Visualizer {
 
       let s0 = poly(0, a, r)
       let s1 = poly(6, a, 1.25 * r)
-      let x = Utils.lerp(s0.x, s1.x, q)
-      let y = Utils.lerp(s0.y, s1.y, q)
+      let x = utils.lerp(s0.x, s1.x, q)
+      let y = utils.lerp(s0.y, s1.y, q)
 
       ctx[j == 0 ? 'moveTo' : 'lineTo'](x, y)
     }
@@ -166,15 +166,15 @@ export default class extends Visualizer {
     let cv = this.canvas
     let data = this.analyzer.getData()
 
-    let bass = Utils.max(data[1].time, abs)
+    let bass = utils.max(data[1].time, abs)
     this.bassMul = 1 + bass / 3
 
     this.bassbuf.shift()
     this.bassbuf.push(bass)
-    let bassAvg = Utils.average(this.bassbuf)
+    let bassAvg = utils.average(this.bassbuf)
     this.bassSpike = bass > 0.3 && bass > 1.3 * bassAvg
 
-    bass += 0.1 * (Utils.average(data[0].freq, 0, 2) / 255)
+    bass += 0.1 * (utils.average(data[0].freq, 0, 2) / 255)
 
     ctx.clear()
     let s = 1.04

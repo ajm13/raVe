@@ -36,7 +36,7 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
-import Utils from '@/js/Utils'
+import utils from '@/js/utils'
 
 export default {
   props: ['visualizer'],
@@ -68,7 +68,7 @@ export default {
       const { min, max } = this.quality
 
       let scale = Math.floor(v.scale * 2 + dir) / 2
-      scale = Utils.clamp(scale, min, max)
+      scale = utils.clamp(scale, min, max)
 
       if (scale !== v.scale) {
         v.scale = scale
@@ -94,7 +94,7 @@ export default {
     this.autoQ = this.settings.autoQ
     this.showFPS = this.settings.showFPS
 
-    const resizeHandler = Utils.debounce(this.$forceUpdate.bind(this))
+    const resizeHandler = utils.debounce(this.$forceUpdate.bind(this))
     window.addEventListener('resize', resizeHandler, 'vis-settings')
     window.addEventListener('fullscreenchange', this.fullscreenHandler, 'vis-settings')
   },

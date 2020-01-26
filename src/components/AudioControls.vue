@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Utils from '@/js/Utils'
+import utils from '@/js/utils'
 
 export default {
   props: {
@@ -121,7 +121,7 @@ export default {
       if (this.seeking) {
         let { progress } = this.$refs
         let offset = e.pageX - this.seeking
-        offset = Utils.clamp(offset, 0, progress.offsetWidth)
+        offset = utils.clamp(offset, 0, progress.offsetWidth)
         if (offset == progress.offsetWidth) this.seeking = false
         this.scrub({ offsetX: offset })
       }
