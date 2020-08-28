@@ -218,7 +218,7 @@ export default {
     document.addEventListener('keydown', onKeydown, 'visualizer')
 
     this.gpuHack = document.createElement('canvas')
-    this.gpuHackCtx = this.gpuHack.getContext('webgl')
+    this.gpuHackCtx = this.gpuHack.getContext('webgl', { powerPreference: 'high-performance' })
 
     this.visualizer = new raVe({
       audio: this.source,
