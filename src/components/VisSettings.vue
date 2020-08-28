@@ -94,6 +94,13 @@ export default {
     this.autoQ = this.settings.autoQ
     this.showFPS = this.settings.showFPS
 
+    const onKeyup = e => {
+      if (e.code === 'KeyF') {
+        this.toggleFullscreen()
+      }
+    }
+    document.addEventListener('keyup', onKeyup, 'visualizer')
+
     const resizeHandler = utils.debounce(this.$forceUpdate.bind(this))
     window.addEventListener('resize', resizeHandler, 'vis-settings')
     window.addEventListener('fullscreenchange', this.fullscreenHandler, 'vis-settings')
