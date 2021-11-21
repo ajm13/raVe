@@ -5,10 +5,7 @@ import store from './store'
 import VueAnalytics from 'vue-analytics'
 import PageViewTime from './plugins/PageViewTime'
 
-import LoremIpsum from 'vue-lorem-ipsum'
 import rave from '@/components/rave'
-
-Vue.component('lorem', LoremIpsum)
 Vue.component('rave', rave)
 
 Vue.config.productionTip = false
