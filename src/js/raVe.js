@@ -40,6 +40,15 @@ export default class extends Visualizer {
     super.render()
   }
 
+  getPolyPoint(a, r, q) {
+    let s0 = poly(0, a, r)
+    let s1 = poly(6, a, 1.25 * r)
+    return {
+      x: utils.lerp(s0.x, s1.x, q),
+      y: utils.lerp(s0.y, s1.y, q)
+    }
+  }
+
   drawInner(ctx, data, bass, white) {
     let R = this.r1
     let h = 0.15 * this.r1
@@ -77,17 +86,56 @@ export default class extends Visualizer {
       let r = R + h * (t0 + t1) + 2 * h * bass
       let a = tau * (j * d2l) - 0.5 * PI
 
-      let s0 = poly(0, a, r)
-      let s1 = poly(6, a, 1.25 * r)
-      let x = utils.lerp(s0.x, s1.x, q)
-      let y = utils.lerp(s0.y, s1.y, q)
-
+      let { x, y } = this.getPolyPoint(a, r, q)
       ctx[j == 0 ? 'moveTo' : 'lineTo'](x, y)
     }
     if (white) ctx.fill()
     ctx.closePath()
     ctx.stroke()
 
+    ctx.restore()
+  }
+
+  drawInnerMask(ctx, data, bass) {
+    let R = this.r2 * this.bassMul
+    let h = 0.2 * this.r2
+    let l = floor(data[0].freq.length / 3)
+    let avg = utils.average(data[0].freq, 1, l)
+    let rs = 1 + avg / 255
+
+    let d255 = 1 / 255
+    let d4l = 1 / (4 * l)
+
+    ctx.save()
+
+    ctx.fillStyle = '#000'
+    let q = 0.5 + 0.5 * cos(this.tick / 500)
+
+    ctx.beginPath()
+    for (let j = 0; j < 4 * l; j++) {
+      let i = ~~abs(l - (j % (2 * l)))
+      let f = rs * max(0, data[0].freq[i] - avg) * d255
+      let t = data[1].time[i * 2]
+      let r = R + h * (t - 0.5 * f) - 2
+      let a = tau * j * d4l + 0.5 * PI
+
+      let { x, y } = this.getPolyPoint(a, r, q)
+      ctx[j == 0 ? 'moveTo' : 'lineTo'](x, y)
+    }
+
+    R -= h * bass ** 2
+
+    for (let j = 0; j < 4 * l; j++) {
+      let i = ~~abs(l - (j % (2 * l)))
+      let f = rs * max(0, data[0].freq[i] - avg) * d255
+      let t = data[1].time[i * 2]
+      let r = R + h * (t - 0.5 * f) - 12
+      let a = tau - tau * j * d4l + 0.5 * PI
+
+      let { x, y } = this.getPolyPoint(a, r, q)
+      ctx[j == 0 ? 'moveTo' : 'lineTo'](x, y)
+    }
+    ctx.fill()
     ctx.restore()
   }
 
@@ -122,11 +170,7 @@ export default class extends Visualizer {
       let r = R + h * (f + t)
       let a = tau * j * d4l + 0.5 * PI
 
-      let s0 = poly(0, a, r)
-      let s1 = poly(6, a, 1.25 * r)
-      let x = utils.lerp(s0.x, s1.x, q)
-      let y = utils.lerp(s0.y, s1.y, q)
-
+      let { x, y } = this.getPolyPoint(a, r, q)
       ctx[j == 0 ? 'moveTo' : 'lineTo'](x, y)
     }
 
@@ -139,11 +183,7 @@ export default class extends Visualizer {
       let r = R + h * (t - 0.5 * f) - 1.5 * white
       let a = tau - tau * j * d4l + 0.5 * PI
 
-      let s0 = poly(0, a, r)
-      let s1 = poly(6, a, 1.25 * r)
-      let x = utils.lerp(s0.x, s1.x, q)
-      let y = utils.lerp(s0.y, s1.y, q)
-
+      let { x, y } = this.getPolyPoint(a, r, q)
       ctx[j == 0 ? 'moveTo' : 'lineTo'](x, y)
     }
     ctx.fill()
@@ -187,6 +227,7 @@ export default class extends Visualizer {
 
     // draw color
     this.drawInner(ctx, data, bass, false)
+    this.drawInnerMask(ctx, data, bass)
     this.drawOuter(ctx, data, bass, false)
 
     // copy to buffer
