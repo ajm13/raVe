@@ -18,6 +18,7 @@ export default class Visualizer {
     this.debug = ''
 
     this.fps = 0
+    this.speed = 0
     this.lastTick = 0
 
     // hot reload multiple render fix
@@ -40,6 +41,7 @@ export default class Visualizer {
 
   calculateFPS() {
     this.fps = this.tick - this.lastTick
+    this.speed = Math.round(this.fps / 60)
     this.lastTick = this.tick
   }
 

@@ -56,7 +56,7 @@ export default class extends Visualizer {
       ctx.strokeStyle = '#fff'
     } else {
       let hue = this.tick / 10 + 10 * sin(this.tick / 10)
-      let l = 55 - floor(20 * bass)
+      let l = (55 - floor(20 * bass)) / this.speed
       ctx.strokeStyle = `hsl(${hue % 360}, 100%, ${l}%)`
       ctx.globalCompositeOperation = 'lighter'
     }
@@ -107,7 +107,7 @@ export default class extends Visualizer {
       ctx.fillStyle = '#fff'
     } else {
       let hue = this.tick / 10 + 10 + 10 * sin(this.tick / 10)
-      let l = 52 + floor(bass * 5)
+      let l = (52 + floor(bass * 5)) / this.speed
       ctx.fillStyle = `hsl(${hue % 360}, 100%, ${l}%)`
       ctx.globalCompositeOperation = 'lighter'
     }
@@ -177,12 +177,12 @@ export default class extends Visualizer {
     bass += 0.1 * (utils.average(data[0].freq, 0, 2) / 255)
 
     ctx.clear()
-    let s = 1.04
+    let s = 1 + 0.04 / this.speed
 
     // draw buffer scaled up for hyperspace
     ctx.drawImage(this.buffer, -0.5 * cv.w * s, -0.5 * cv.h * s, cv.w * s, cv.h * s)
 
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+    ctx.fillStyle = `rgba(0, 0, 0, ${0.05 / this.speed})`
     ctx.fillRect(-0.5 * cv.w, -0.5 * cv.h, cv.w, cv.h)
 
     // draw color
