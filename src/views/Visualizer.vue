@@ -14,14 +14,14 @@
         <audio-controls :audio="audio" :microphone="microphone" :playlist="playlist" />
       </div>
       <audio-dropzone :playlist="playlist" />
-      <div v-if="settings.showFPS" class="vis__fps">{{ visualizer.fps }}</div>
+      <div v-if="settings.showFPS" class="vis__fps">{{ fps }}</div>
     </template>
     <modal :show="showWelcome" @click="hideWelcome">
       <div class="vis__welcome">
         <h2>Welcome to <rave /></h2>
         <p>
           Drag and drop audio files or toggle microphone to begin. To use with Spotify or YouTube,
-          see <router-link to="setup">setup</router-link>
+          see <router-link to="/setup">setup</router-link>
         </p>
         <p>
           <strong>Tip:</strong> If <rave />&nbsp;is slow or choppy,
@@ -53,15 +53,16 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { markRaw } from 'vue'
 import '@/js/CanvasUtils'
+import { useSettingsStore } from '@/store'
 
-import AudioControls from '@/components/AudioControls'
-import AudioDropzone from '@/components/AudioDropzone'
-import DonateForm from '@/components/DonateForm'
-import Modal from '@/components/Modal'
-import NavBar from '@/components/NavBar'
-import VisSettings from '@/components/VisSettings'
+import AudioControls from '@/components/AudioControls.vue'
+import AudioDropzone from '@/components/AudioDropzone.vue'
+import DonateForm from '@/components/DonateForm.vue'
+import Modal from '@/components/Modal.vue'
+import NavBar from '@/components/NavBar.vue'
+import VisSettings from '@/components/VisSettings.vue'
 
 import AudioAnalyzer from '@/js/AudioAnalyzer'
 import Microphone from '@/js/Microphone'
@@ -70,6 +71,8 @@ import Playlist from '@/js/Playlist'
 import raVe from '@/js/raVe'
 
 export default {
+  setup: () => ({ settings: useSettingsStore() }),
+
   data: () => ({
     acx: null,
     analyzer: null,
@@ -78,6 +81,8 @@ export default {
     playlist: null,
     source: null,
     visualizer: null,
+
+    fps: 0,
 
     autoQSamples: [],
     autoQLastTick: 0,
@@ -98,8 +103,6 @@ export default {
   }),
 
   computed: {
-    ...mapState(['settings']),
-
     showControls() {
       if (!this.visualizer) return true
       return this.userActive || this.source.paused
@@ -107,8 +110,6 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setAutoEnter', 'stopShowingDonate']),
-
     autoQuality() {
       const fps = this.visualizer.tick - this.autoQLastTick
       this.autoQLastTick = this.visualizer.tick
@@ -132,7 +133,7 @@ export default {
 
     hideDonate() {
       this.showDonate = false
-      if (this.noMoreDonate) this.stopShowingDonate()
+      if (this.noMoreDonate) this.settings.showDonate = false
     },
 
     displayDonate(force = false) {
@@ -167,7 +168,7 @@ export default {
   },
 
   created() {
-    this.setAutoEnter(true)
+    this.settings.autoEnter = true
 
     this.showDonateTO = setTimeout(this.displayDonate, 6e4 * 15) // first at 15 min
     this.showDonateIV = setInterval(this.displayDonate, 6e4 * 60) // then every 60 min
@@ -188,7 +189,7 @@ export default {
 
     this.playlist = new Playlist(this.audio)
     this.microphone = new Microphone(this.audio, this.acx, pt)
-    this.analyzer = new AudioAnalyzer(this.acx, pt)
+    this.analyzer = markRaw(new AudioAnalyzer(this.acx, pt))
 
     const audio = this.audio
     const microphone = this.microphone
@@ -226,9 +227,12 @@ export default {
       container: this.$refs.container,
       scale: this.settings.scale
     })
+
+    // raVe sets fps on the raw object, which Vue does not track
+    this.visualizer.onFPS = fps => (this.fps = fps)
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeAllEventListeners('visualizer')
 
     clearTimeout(this.showDonateTO)

@@ -1,24 +1,18 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { reactive, toRefs, watch } from 'vue'
+import { defineStore } from 'pinia'
 
 const VERSION = '1.4'
 const VERSION_KEY = 'raVe-v'
 const STORAGE_KEY = 'raVe'
 
-Vue.use(Vuex)
+function load() {
+  const saved = localStorage.getItem(STORAGE_KEY)
+  if (localStorage.getItem(VERSION_KEY) === VERSION && saved !== null) {
+    return JSON.parse(saved).settings
+  }
 
-let version = localStorage.getItem(VERSION_KEY)
-let saved = localStorage.getItem(STORAGE_KEY)
-
-if (version === VERSION && saved !== null) {
-  saved = JSON.parse(saved)
-} else {
-  saved = null
   localStorage.setItem(VERSION_KEY, VERSION)
-}
-
-const state = saved || {
-  settings: {
+  return {
     autoEnter: false,
     autoQ: true,
     scale: 1,
@@ -27,37 +21,13 @@ const state = saved || {
   }
 }
 
-const mutations = {
-  setAutoEnter(state, autoEnter) {
-    state.settings.autoEnter = autoEnter
-  },
+export const useSettingsStore = defineStore('settings', () => {
+  const settings = reactive(load())
 
-  setAutoQ(state, autoQ) {
-    state.settings.autoQ = autoQ
-  },
-
-  setScale(state, scale) {
-    state.settings.scale = scale
-  },
-
-  setShowFPS(state, show) {
-    state.settings.showFPS = show
-  },
-
-  stopShowingDonate(state) {
-    state.settings.showDonate = false
-  }
-}
-
-const localStoragePlugin = store => {
-  store.subscribe((mutation, state) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+  // Keep the v1.4 storage format so that saved settings stay valid
+  watch(settings, () => localStorage.setItem(STORAGE_KEY, JSON.stringify({ settings })), {
+    deep: true
   })
-}
 
-export default new Vuex.Store({
-  state,
-  mutations,
-  actions: {},
-  plugins: [localStoragePlugin]
+  return toRefs(settings)
 })

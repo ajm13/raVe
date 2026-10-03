@@ -18,13 +18,12 @@ export default class Visualizer {
     this.debug = ''
 
     this.fps = 0
+    this.onFPS = null
     this.speed = 0
     this.lastTick = 0
 
     // hot reload multiple render fix
-    this.id = Math.random()
-      .toString(16)
-      .substr(2)
+    this.id = Math.random().toString(16).substr(2)
     this.audio.visID = this.id
 
     this.fpsID = window.setInterval(this.calculateFPS.bind(this), 1000)
@@ -43,6 +42,7 @@ export default class Visualizer {
     this.fps = this.tick - this.lastTick
     this.speed = Math.round(this.fps / 60)
     this.lastTick = this.tick
+    if (this.onFPS) this.onFPS(this.fps)
   }
 
   resize() {

@@ -9,18 +9,20 @@
     </template>
     <div class="container" :class="{ visualizer: visActive }">
       <div v-if="!visActive" class="bg" :class="bgBlur"></div>
-      <transition
-        appear
-        mode="out-in"
-        :leave-class="transitionClass('leave')"
-        :leave-active-class="transitionClass('leave-active')"
-        :leave-to-class="transitionClass('leave-to')"
-        :enter-class="transitionClass('enter')"
-        :enter-active-class="transitionClass('enter-active')"
-        :enter-to-class="transitionClass('enter-to')"
-      >
-        <router-view :class="{ content: !visActive }" />
-      </transition>
+      <router-view v-slot="{ Component }">
+        <transition
+          appear
+          mode="out-in"
+          :leave-from-class="transitionClass('leave-from')"
+          :leave-active-class="transitionClass('leave-active')"
+          :leave-to-class="transitionClass('leave-to')"
+          :enter-from-class="transitionClass('enter-from')"
+          :enter-active-class="transitionClass('enter-active')"
+          :enter-to-class="transitionClass('enter-to')"
+        >
+          <component :is="Component" :class="{ content: !visActive }" />
+        </transition>
+      </router-view>
     </div>
     <nav-bar v-if="!visActive" />
   </div>
@@ -29,7 +31,7 @@
 <script>
 import '@/js/EventListenerCleanup'
 
-import NavBar from '@/components/NavBar'
+import NavBar from '@/components/NavBar.vue'
 const DEFAULT_TRANSITION = 'fade'
 
 export default {
@@ -59,7 +61,7 @@ export default {
     this.bgInterval = setInterval(this.changeBackground, 30000)
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.bgInterval)
   },
 
@@ -77,11 +79,10 @@ export default {
       let transition = direction === 'enter' ? this.toTransition : this.fromTransition
       return `${transition}-${type}`
     },
-    updateTransition(to, from, next) {
+    updateTransition(to, from) {
       window.scrollTo(0, 0)
       this.fromTransition = from.meta.transition || DEFAULT_TRANSITION
       this.toTransition = to.meta.transition || DEFAULT_TRANSITION
-      if (next) next()
     }
   },
 
@@ -90,7 +91,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './assets/main.scss';
+@use './assets/main.scss';
 
 @for $i from 0 through 19 {
   .bg-#{$i} {

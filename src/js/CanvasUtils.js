@@ -1,4 +1,4 @@
-CanvasRenderingContext2D.prototype.fullscreen = function(s, w, h) {
+CanvasRenderingContext2D.prototype.fullscreen = function (s, w, h) {
   w = w ? w : window.innerWidth
   h = h ? h : window.innerHeight
 
@@ -20,7 +20,7 @@ CanvasRenderingContext2D.prototype.fullscreen = function(s, w, h) {
   this.fillStyle = fs
 }
 
-CanvasRenderingContext2D.prototype.clear = function() {
+CanvasRenderingContext2D.prototype.clear = function () {
   this.save()
   this.setTransform(1, 0, 0, 1, 0, 0)
   this.fillStyle = '#000'

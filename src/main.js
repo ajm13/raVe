@@ -1,45 +1,22 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
-import store from './store'
-import VueAnalytics from 'vue-analytics'
-import PageViewTime from './plugins/PageViewTime'
+import { useSettingsStore } from './store'
 
-import rave from '@/components/rave'
-Vue.component('rave', rave)
+import rave from '@/components/rave.vue'
 
-Vue.config.productionTip = false
+const app = createApp(App).use(createPinia()).use(router).component('rave', rave)
+const settings = useSettingsStore()
 
-const prod = process.env.NODE_ENV === 'production'
-const debug = !prod && false
-
-Vue.use(VueAnalytics, {
-  id: 'UA-125037714-1',
-  router,
-  debug: {
-    enabled: debug,
-    sendHitTask: prod
-  }
-})
-
-Vue.use(PageViewTime, {
-  router
-})
-
-router.beforeEach((to, from, next) => {
-  const { autoEnter } = store.state.settings
-  if (autoEnter && to.name === 'home') {
+router.beforeEach((to, from) => {
+  if (settings.autoEnter && to.name === 'home') {
     if (from.name === 'visualizer') {
-      store.commit('setAutoEnter', false)
+      settings.autoEnter = false
     } else {
-      return next('/visualizer')
+      return '/visualizer'
     }
   }
-  next()
 })
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+router.isReady().then(() => app.mount('#app'))

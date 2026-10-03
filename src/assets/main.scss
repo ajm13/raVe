@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-@import './transitions.scss';
+@use './transitions.scss';
 
 :root {
   --content-width: 1000px;

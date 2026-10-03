@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import DonateForm from '@/components/DonateForm'
+import DonateForm from '@/components/DonateForm.vue'
 
 export default {
   components: { DonateForm }

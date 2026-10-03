@@ -58,7 +58,7 @@ export default {
     document.body.addEventListener('dragenter', this.dragEnter, 'audio-dropzone')
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeAllEventListeners('audio-dropzone')
   }
 }
@@ -98,12 +98,12 @@ export default {
   }
 }
 
-.note-enter,
+.note-enter-from,
 .note-leave-active {
   opacity: 0;
 }
 
-.note-enter .note,
+.note-enter-from .note,
 .note-leave-active .note {
   transform: translate(-50%, -50%) scale(1.1);
 }

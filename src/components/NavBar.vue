@@ -3,10 +3,10 @@
     <div class="nav-scroll">
       <div class="nav-links">
         <router-link to="/"><rave /></router-link>
-        <router-link to="setup">setup</router-link>
-        <router-link to="about">about</router-link>
-        <router-link to="contact">contact</router-link>
-        <router-link to="donate">donate</router-link>
+        <router-link to="/setup">setup</router-link>
+        <router-link to="/about">about</router-link>
+        <router-link to="/contact">contact</router-link>
+        <router-link to="/donate">donate</router-link>
         <a href="https://github.com/ajm13/raVe" target="_blank">code</a>
       </div>
     </div>

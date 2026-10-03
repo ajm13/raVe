@@ -2,7 +2,7 @@ if (!AnalyserNode.prototype.getFloatTimeDomainData) {
   let u8data = []
   const d127 = 1 / 127.5
 
-  AnalyserNode.prototype.getFloatTimeDomainData = function(data) {
+  AnalyserNode.prototype.getFloatTimeDomainData = function (data) {
     if (u8data.length !== data.length) {
       u8data = new Uint8Array(data.length)
     }
@@ -62,7 +62,7 @@ export default class AudioAnalyzer {
       ana.id = id + 'ana'
 
       // get audio data and put into arrays
-      ana.getData = function() {
+      ana.getData = function () {
         let data = {}
 
         if (this.dataSet == 'both' || this.dataSet == 'frequency') {

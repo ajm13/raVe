@@ -32,7 +32,9 @@ The outer ring is made up of both frequency and time domain data, and is symmetr
 
 ## Running **raVe** locally
 
+Requires Node 24+.
+
 ```bash
-yarn install
-yarn serve
+npm install
+npm run dev
 ```

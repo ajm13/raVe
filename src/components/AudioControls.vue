@@ -167,7 +167,7 @@ export default {
     document.addEventListener('keyup', this.keyup, 'audio-controls')
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeAllEventListeners('audio-controls')
   }
 }
@@ -229,7 +229,7 @@ export default {
       transition: all 300ms ease-out;
     }
 
-    .playlist-enter,
+    .playlist-enter-from,
     .playlist-leave-active {
       opacity: 0;
       bottom: 50% !important;

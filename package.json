@@ -1,59 +1,39 @@
 {
-  "name": "raVe",
+  "name": "rave",
   "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
-    "serve": "vue-cli-service serve --https",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "vue": "^2.6.10",
-    "vue-analytics": "^5.16.4",
-    "vue-router": "^3.0.2",
-    "vuex": "^3.1.0"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.5.5",
-    "@vue/cli-plugin-eslint": "^3.5.1",
-    "@vue/cli-service": "^3.5.3",
-    "@vue/eslint-config-prettier": "^4.0.1",
-    "image-webpack-loader": "^4.6.0",
-    "sass": "^1.43.4",
-    "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.6.10"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "prettier": {
     "semi": false,
     "singleQuote": true,
-    "printWidth": 100
+    "printWidth": 100,
+    "trailingComma": "none",
+    "arrowParens": "avoid"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/prettier"
-    ],
-    "rules": {
-      "linebreak-style": [
-        "error",
-        "unix"
-      ]
-    },
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
+  "dependencies": {
+    "pinia": "^4.0.3",
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
   },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "eslint": "^10.11.0",
+    "eslint-plugin-vue": "^10.11.1",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.9",
+    "sass": "^1.105.0",
+    "vite": "^8.3.1"
+  }
 }

@@ -7,8 +7,8 @@
       </div>
       <div class="welcome__subtitle">real-time audio visualizer experience</div>
 
-      <router-link tag="button" to="/visualizer" class="welcome__enter">
-        <span>enter </span><rave />
+      <router-link to="/visualizer" custom v-slot="{ navigate }">
+        <button class="welcome__enter" @click="navigate"><span>enter </span><rave /></button>
       </router-link>
     </div>
   </div>

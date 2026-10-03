@@ -1,7 +1,7 @@
 <template>
   <div class="modal" :style="vars" :class="{ peek }">
     <transition name="zoom">
-      <div class="modal__cover" v-if="show" v-on="$listeners">
+      <div class="modal__cover" v-if="show" @click="$emit('click')">
         <div class="modal__content" @click.stop>
           <slot />
         </div>
@@ -12,6 +12,8 @@
 
 <script>
 export default {
+  emits: ['click'],
+
   props: {
     show: Boolean,
     peek: Boolean,
@@ -50,7 +52,9 @@ export default {
     line-height: 1.5;
     padding: 1.5em;
 
-    transition: transform 300ms ease, background 300ms ease;
+    transition:
+      transform 300ms ease,
+      background 300ms ease;
   }
 
   &.peek {

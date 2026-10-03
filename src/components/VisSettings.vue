@@ -1,5 +1,5 @@
 <template>
-  <div class="vis-settings" ref="settings" v-if="visualizer">
+  <div class="vis-settings" v-if="visualizer">
     <div class="vis-settings__open" :class="{ hidden: showSettings }" @click="showSettings = true">
       settings
     </div>
@@ -11,7 +11,7 @@
         <div>fullscreen</div>
       </label>
       <label class="btn toggle">
-        <input type="checkbox" v-model="showFPS" @change="setShowFPS(showFPS)" />
+        <input type="checkbox" v-model="settings.showFPS" />
         <div>show FPS</div>
       </label>
       <br />
@@ -26,7 +26,7 @@
         </button>
       </div>
       <label class="btn toggle">
-        <input type="checkbox" v-model="autoQ" @change="setAutoQ(autoQ)" />
+        <input type="checkbox" v-model="settings.autoQ" />
         <div>auto quality</div>
       </label>
       {{ visualizer.canvas.width }}x{{ visualizer.canvas.height }}
@@ -35,34 +35,30 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
 import utils from '@/js/utils'
+import { useSettingsStore } from '@/store'
 
 export default {
   props: ['visualizer'],
+
+  setup: () => ({ settings: useSettingsStore() }),
 
   data: () => ({
     quality: {
       min: 0.5,
       max: 3,
-      '0.5': 'low',
-      '1': 'medium',
-      '1.5': 'high',
-      '2': 'ultra',
-      '2.5': 'insane',
-      '3': 'ludicrous'
+      0.5: 'low',
+      1: 'medium',
+      1.5: 'high',
+      2: 'ultra',
+      2.5: 'insane',
+      3: 'ludicrous'
     },
-    autoQ: false,
-    showFPS: false,
     showSettings: true,
     fullscreen: false
   }),
 
-  computed: mapState(['settings']),
-
   methods: {
-    ...mapMutations(['setAutoQ', 'setScale', 'setShowFPS']),
-
     changeScale(dir) {
       const v = this.visualizer
       const { min, max } = this.quality
@@ -72,7 +68,7 @@ export default {
 
       if (scale !== v.scale) {
         v.scale = scale
-        this.setScale(v.scale)
+        this.settings.scale = v.scale
         v.resize()
       }
     },
@@ -91,9 +87,6 @@ export default {
   },
 
   created() {
-    this.autoQ = this.settings.autoQ
-    this.showFPS = this.settings.showFPS
-
     const onKeyup = e => {
       if (e.code === 'KeyF') {
         this.toggleFullscreen()
@@ -106,7 +99,7 @@ export default {
     window.addEventListener('fullscreenchange', this.fullscreenHandler, 'vis-settings')
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeAllEventListeners('vis-settings')
   }
 }

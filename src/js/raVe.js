@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import Visualizer from './Visualizer'
 import utils from './utils'
 

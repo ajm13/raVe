@@ -8,14 +8,14 @@
 }
 
 .fade {
-  &-enter,
+  &-enter-from,
   &-leave-to {
     opacity: 0;
   }
 }
 
 .zoom {
-  &-enter,
+  &-enter-from,
   &-leave-to {
     opacity: 0;
     transform: scale3d(1.5, 1.5, 1);

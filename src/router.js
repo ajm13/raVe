@@ -1,11 +1,8 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Home from './views/Home.vue'
 
-Vue.use(Router)
-
-export default new Router({
-  mode: 'history',
+export default createRouter({
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
@@ -16,27 +13,27 @@ export default new Router({
     {
       path: '/visualizer',
       name: 'visualizer',
-      component: () => import(/* webpackChunkName: "visualizer" */ './views/Visualizer.vue')
+      component: () => import('./views/Visualizer.vue')
     },
     {
       path: '/setup',
       name: 'setup',
-      component: () => import(/* webpackChunkName: "setup" */ './views/Setup.vue')
+      component: () => import('./views/Setup.vue')
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: () => import('./views/About.vue')
     },
     {
       path: '/contact',
       name: 'contact',
-      component: () => import(/* webpackChunkName: "contact" */ './views/Contact.vue')
+      component: () => import('./views/Contact.vue')
     },
     {
       path: '/donate',
       name: 'donate',
-      component: () => import(/* webpackChunkName: "donate" */ './views/Donate.vue')
+      component: () => import('./views/Donate.vue')
     }
   ]
 })
